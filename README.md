@@ -1,4 +1,1 @@
-xse
-===
-
-U of Tartu Software Engineering project
+U of Tartu Software Engineering project (Fall 2014)
