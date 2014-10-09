@@ -18,6 +18,14 @@
             <include name="**/*.jar"/>
         </fileset>
 	 </path>
+	
+	<!-- Run classpath -->
+	<path id="run.classpath">
+		<pathelement location="${build}" />
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+	</path>
 
 	<target name="init">
 	    <!-- Create time stamp -->
@@ -43,12 +51,54 @@
 	</target>
 	
 	<target name="run">
+		<!-- Run the Intro class -->
+		<java classname="ee.ut.math.tvt.TRAtarkvaratehnika.Intro" fork="true" classpathref="run.classpath">
+		</java>
 	</target>
 	
-	<target name="dist">
+	<target name="dist" depends="build"
+		description="generate the distribution" >
+	    
+		<!-- Create the distribution directory -->
+	    <mkdir dir="${build}/jar"/>
+
+	    <!-- Create manifest file-->
+	  	<manifestclasspath property="lib.list" jarfile="${build}/jar/TRAtarkvaratehnika.jar">
+	  		<classpath path="${build}">
+				<!-- <pathelement path="lib/log4j-1.2.17.jar"/> -->
+	  			<!-- <pathelement path="etc"/> -->
+			</classpath>
+	  	</manifestclasspath>
+	  	<manifest file="${build}/MANIFEST.MF">
+	  		<attribute name="Main-Class" value="ee/ut/math/tvt/TRAtarkvaratehnika/Intro" />
+	  		<attribute name="Class-Path" value="${lib.list}"/>
+	  	</manifest>
+	  	
+	  	<!-- Put everything in ${build} into the jar file-->
+	    <jar jarfile="${build}/jar/TRAtarkvaratehnika.jar"
+	    	manifest="${build}/MANIFEST.MF"
+	    	basedir="${build}"
+	    	excludes="jar/TRAtarkvaratehnika.jar">
+	  	</jar>
+	  	
+	  	<!-- update properties where necessary -->
+		<propertyfile file="version.properties" comment = "Version properties">
+			<entry  key="build.minor.number" type="int" default="0"/>
+			<entry  key="build.major.number" type="int" default="0"/>
+			<entry  key="build.revision.number" type="int" default="0" operation="+"/>
+		</propertyfile>
+		
+		<!-- read properties file -->
+		<loadproperties srcFile="version.properties"/>
+		
+		<propertyfile file="version.properties" comment = "Version properties">
+			<entry  key="build.number" operation="=" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+		</propertyfile>
 	</target>
 	
-	<target name="jrun">
+	<target name="jrun" depends="build">
+		<java jar="${build}/jar/TRAtarkvaratehnika.jar"
+			fork="true" />
 	</target>
 	
 	
