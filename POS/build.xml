@@ -10,6 +10,7 @@
 	<property name="build" location="build"/>
 	<property name="dist"  location="dist"/>
 	<property name="lib.dir" location="lib" />
+	<property name="etc.dir" location="lib" />
 	
 	
 	<!-- Compilation classpath -->
@@ -25,6 +26,10 @@
 		<pathelement location="." />
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
+        </fileset>
+		<fileset dir="${etc.dir}">
+            <include name="log4j.dtd"/>
+			<include name="log4j.xml"/>
         </fileset>
 	</path>
 
