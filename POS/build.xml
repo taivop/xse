@@ -66,8 +66,8 @@
 	    <!-- Create manifest file-->
 	  	<manifestclasspath property="lib.list" jarfile="${build}/jar/TRAtarkvaratehnika.jar">
 	  		<classpath path="${build}">
-				<!-- <pathelement path="lib/log4j-1.2.17.jar"/> -->
-	  			<!-- <pathelement path="etc"/> -->
+				<pathelement path="lib/log4j-1.2.17.jar"/>
+	  			<pathelement path="etc"/>
 			</classpath>
 	  	</manifestclasspath>
 	  	<manifest file="${build}/MANIFEST.MF">
