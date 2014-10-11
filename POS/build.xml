@@ -22,6 +22,7 @@
 	<!-- Run classpath -->
 	<path id="run.classpath">
 		<pathelement location="${build}" />
+		<pathelement location="." />
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
@@ -50,7 +51,7 @@
 	  	</javac>
 	</target>
 	
-	<target name="run">
+	<target name="run" depends="build">
 		<!-- Run the Intro class -->
 		<java classname="ee.ut.math.tvt.TRAtarkvaratehnika.Intro" fork="true" classpathref="run.classpath">
 		</java>
