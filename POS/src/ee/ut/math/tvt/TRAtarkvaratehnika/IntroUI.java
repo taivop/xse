@@ -42,8 +42,8 @@ class Window extends JFrame
 		        };
 		//Gridi asjade paigutamine.
 		GridBagConstraints c = new GridBagConstraints();
-	JLabel silt = (new JLabel());
-		Integer luger = 0;
+	JLabel label1 = (new JLabel());
+		Integer count = 0;
 		for (int i=0;i<5;i++){
 			c.gridy = i;
 			for (int j=0;j<2;j++){
@@ -54,20 +54,20 @@ class Window extends JFrame
 				else{
 					c.weightx = 0.7;
 				}
-				silt = new JLabel(data[luger]);
-				add(silt,c);
-				luger++;		
+				label1 = new JLabel(data[count]);
+				add(label1,c);
+				count++;		
 			}
 		}
-	/*	//Pildi lisamine
+		//Pildi lisamine
 		GridBagConstraints d = new GridBagConstraints();
-		ImageIcon icon = new ImageIcon("team_image.jpg");
-		silt = new JLabel(icon);
+		ImageIcon icon = new ImageIcon("rabbit.jpg");
+		label1 = new JLabel(icon);
 		d.fill = GridBagConstraints.HORIZONTAL;
 		d.gridy = 5;
 		d.gridwidth = 2;
 		d.anchor = GridBagConstraints.CENTER;
-		add(silt,d);*/
+		add(label1,d);
 		setVisible(true);
 	}
 }
