@@ -1,8 +1,9 @@
 package ee.ut.math.tvt.TRAtarkvaratehnika;
 
 import java.io.IOException;
-import org.apache.log4j.BasicConfigurator;
+
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 public class Intro {
 	private static final Logger log = Logger.getLogger(Intro.class);
@@ -10,9 +11,9 @@ public class Intro {
 	public static void main(String[] args) {
 		// Initialise the logger
 		Logger log = Logger.getLogger(Intro.class);
-		BasicConfigurator.configure();
-
-
+		DOMConfigurator.configure("etc/log4j.xml");
+		//BasicConfigurator.configure();
+		
 		try {
 			IntroUI.Window();
 		} catch (IOException e) {
