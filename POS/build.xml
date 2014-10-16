@@ -135,6 +135,11 @@
 			<arg value="-m" />
 			<arg value="${commit-message}" />
 		</exec>
+		
+		<!-- Pull changes -->
+		<exec executable="git">
+			<arg value="pull" />
+		</exec>
 
 		<!-- Prompt for username and password-->
 		<input message="Username:" addproperty="commit-username" />
