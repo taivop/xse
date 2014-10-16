@@ -10,8 +10,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-class Window extends JFrame {
-	Window() throws IOException {
+
+class IntroUI extends JFrame {
+	
+	IntroUI() throws IOException {
 		setTitle("POS system");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 400);
@@ -66,10 +68,12 @@ class Window extends JFrame {
 		add(label1, constr);
 		setVisible(true);
 	}
-}
+	
+	
+//}
 
-public class IntroUI {
-	public static void Window() throws IOException {
-		Window frame = new Window();
-	}
+//public class IntroUI {
+	//public static void Window() throws IOException {
+	//	Window frame = new Window();
+	//}
 }
