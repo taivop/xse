@@ -32,6 +32,19 @@
 			<include name="log4j.xml"/>
         </fileset>
 	</path>
+	
+	<!-- Test classpath -->
+		<path id="test.classpath">
+			<pathelement location="${build}" />
+			<pathelement location="." />
+	        <fileset dir="${lib.dir}">
+	            <include name="**/*.jar"/>
+	        </fileset>
+			<fileset dir="${etc.dir}">
+	            <include name="log4j.dtd"/>
+				<include name="log4j.xml"/>
+	        </fileset>
+		</path>
 
 	<target name="init">
 	    <!-- Create time stamp -->
