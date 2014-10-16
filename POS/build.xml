@@ -62,6 +62,12 @@
 		</java>
 	</target>
 	
+	<target name="runc" depends="build" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.TRAtarkvaratehnika.Intro" classpathref="test.classpath" fork="yes">
+			<arg value="console" />
+		</java>
+	</target>
+	
 	<target name="dist" depends="build"
 		description="generate the distribution" >
 	    
