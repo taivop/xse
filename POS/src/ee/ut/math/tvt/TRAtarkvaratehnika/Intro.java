@@ -3,6 +3,7 @@ package ee.ut.math.tvt.TRAtarkvaratehnika;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
@@ -14,8 +15,9 @@ public class Intro{
 	private static final Logger log = Logger.getLogger(Intro.class);
 	private static final String MODE = "console";
 
-	public static void main(String[] args) {
 
+	public static void main(String[] args) {
+		DOMConfigurator.configure("etc/log4j.xml");
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 
 		if (args.length == 1 && args[0].equals(MODE)) {
@@ -28,6 +30,7 @@ public class Intro{
 			try { IntroUI introUI = new IntroUI();
 			introUI.setVisible(true);
 			introUI.setAlwaysOnTop(true); 
+			log.info("Intro window opened");
 
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
