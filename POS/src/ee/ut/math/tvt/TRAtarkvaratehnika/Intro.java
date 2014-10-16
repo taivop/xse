@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.TRAtarkvaratehnika;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -7,7 +9,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerIm
 import ee.ut.math.tvt.salessystem.ui.ConsoleUI;
 import ee.ut.math.tvt.salessystem.ui.SalesSystemUI;
 
-public class Intro {
+public class Intro{
 
 	private static final Logger log = Logger.getLogger(Intro.class);
 	private static final String MODE = "console";
@@ -23,9 +25,10 @@ public class Intro {
 			cui.run();
 		} else {
 
-			IntroUI introUI = new IntroUI();
+			try { IntroUI introUI = new IntroUI();
 			introUI.setVisible(true);
-			introUI.setAlwaysOnTop(true);
+			introUI.setAlwaysOnTop(true); 
+
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
 			ui.setVisible(true);
@@ -36,7 +39,10 @@ public class Intro {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			introUI.setVisible(false);
+			introUI.setVisible(false);}
+	
+			catch (IOException e2) 
+			{ e2.printStackTrace(); }
 		}
 	}
 }
