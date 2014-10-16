@@ -143,10 +143,11 @@
 		<!-- Push to GitHub -->
 		<exec executable="git">
 			<arg value="push" />
-			<arg value="https://${commit-username}:${commit-password}@github.com/andoh/the-4-horsemen.git" />
+			<arg value="https://${commit-username}:${commit-password}@github.com/taivop/xse.git" />
 			<arg value="master" />
 		</exec>
 	</target>
+	
 
 
 </project>
