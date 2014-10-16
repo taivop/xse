@@ -135,11 +135,6 @@
 			<arg value="-m" />
 			<arg value="${commit-message}" />
 		</exec>
-		
-		<!-- Pull changes -->
-		<exec executable="git">
-			<arg value="pull" />
-		</exec>
 
 		<!-- Prompt for username and password-->
 		<input message="Username:" addproperty="commit-username" />
@@ -148,7 +143,7 @@
 		<!-- Push to GitHub -->
 		<exec executable="git">
 			<arg value="push" />
-			<arg value="https://${commit-username}:${commit-password}@github.com/andoh/the-4-horsemen.git" />
+			<arg value="https://${commit-username}:${commit-password}@github.com/taivop/xse.git" />
 			<arg value="master" />
 		</exec>
 	</target>
