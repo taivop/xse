@@ -13,9 +13,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 public class StockItemPanel extends JPanel {
+	private static final Logger log = Logger.getLogger(StockItemPanel.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +28,7 @@ public class StockItemPanel extends JPanel {
 	private JTextField itemPriceField;
 	private JTextField quantityField;
 	private JTextField idField;
+	private JTextField descriptionField;
 
 	private JButton addItemToStockButton;
 
@@ -43,7 +48,7 @@ public class StockItemPanel extends JPanel {
 	private JComponent drawAddToStockPane() {
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(5, 2));
+		panel.setLayout(new GridLayout(6, 2));
 		panel.setBorder(BorderFactory.createTitledBorder("New product"));
 
 		// Initialize the textfields
@@ -51,6 +56,7 @@ public class StockItemPanel extends JPanel {
 		quantityField = new JTextField();
 		nameField = new JTextField();
 		itemPriceField = new JTextField();
+		descriptionField = new JTextField();
 
 		// == Add components to the panel
 		// - item id
@@ -65,6 +71,9 @@ public class StockItemPanel extends JPanel {
 		// Quantity
 		panel.add(new JLabel("Quantity:"));
 		panel.add(quantityField);
+		// Description
+		panel.add(new JLabel("Description:"));
+		panel.add(descriptionField);
 
 		// Create and add the button
 		addItemToStockButton = new JButton("Add to stock");
@@ -84,25 +93,32 @@ public class StockItemPanel extends JPanel {
 		this.quantityField.setEnabled(enabled);
 		this.itemPriceField.setEnabled(enabled);
 		this.nameField.setEnabled(enabled);
+		this.descriptionField.setEnabled(enabled);
 	}
 
 	public void addItemToStockEventHandler() {
-		// TODO
+		//TODO: all fields are required? Or description optional? If id is not filled should it be generated automatically?
+		//If increasing stock, should price, name match?
+		try {
+			long id;
+			String name;
+			String description;
+			double price;
+			int quantity;
+			id = Integer.parseInt(idField.getText());
+			name = nameField.getText();
+			description = descriptionField.getText();
+			price = Double.parseDouble(itemPriceField.getText());
+			quantity = Integer.parseInt(quantityField.getText());
+			StockItem stockItem = new StockItem(id, name, description, price,
+					quantity);
+			model.getWarehouseTableModel().addItem(stockItem);
+		} catch (NumberFormatException ex) {
+			 log.error(ex.getMessage());
 
+		}
 	}
 
-	/*
-	 * === Ideally, UI's layout and behavior should be kept as separated as
-	 * possible. If you work on the behavior of the application, you don't want
-	 * the layout details to get on your way all the time, and vice versa. This
-	 * separation leads to cleaner, more readable and better maintainable code.
-	 * 
-	 * In a Swing application, the layout is also defined as Java code and this
-	 * separation is more difficult to make. One thing that can still be done is
-	 * moving the layout-defining code out into separate methods, leaving the
-	 * more important methods unburdened of the messy layout code. This is done
-	 * in the following methods.
-	 */
 
 	// UI CONSTRAINTS
 	private GridBagConstraints getAddToStockPaneConstraints() {
