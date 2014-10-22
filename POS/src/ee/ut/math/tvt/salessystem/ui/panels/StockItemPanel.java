@@ -97,15 +97,25 @@ public class StockItemPanel extends JPanel {
 	}
 
 	public void addItemToStockEventHandler() {
-		//TODO: all fields are required? Or description optional? If id is not filled should it be generated automatically?
-		//If increasing stock, should price, name match?
+		// TODO: all fields are required? Or description optional? If id is not
+		// filled should it be generated automatically?
+		// If increasing stock, should price, name match?
 		try {
 			long id;
 			String name;
 			String description;
 			double price;
 			int quantity;
-			id = Integer.parseInt(idField.getText());
+			// id is inserted
+			if (!idField.getText().equals("")) {
+				id = Long.parseLong(idField.getText());
+				// too big-->new product
+				if (!(id <= model.getWarehouseTableModel().getRowCount()))
+					id = model.getWarehouseTableModel().getRowCount() + 1;
+			} else
+				// id not inserted
+				id = model.getWarehouseTableModel().getRowCount() + 1;
+			System.out.println(id);
 			name = nameField.getText();
 			description = descriptionField.getText();
 			price = Double.parseDouble(itemPriceField.getText());
@@ -114,11 +124,10 @@ public class StockItemPanel extends JPanel {
 					quantity);
 			model.getWarehouseTableModel().addItem(stockItem);
 		} catch (NumberFormatException ex) {
-			 log.error(ex.getMessage());
+			log.error(ex.getMessage());
 
 		}
 	}
-
 
 	// UI CONSTRAINTS
 	private GridBagConstraints getAddToStockPaneConstraints() {
