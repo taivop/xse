@@ -9,9 +9,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,9 +25,10 @@ import javax.swing.JTextField;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
 /**
- * Purchase pane + shopping cart tabel UI.
+ * Purchase pane + shopping cart table UI.
  */
 public class PurchaseItemPanel extends JPanel {
 
@@ -38,6 +41,8 @@ public class PurchaseItemPanel extends JPanel {
 	private JTextField priceField;
 
 	private JButton addItemButton;
+
+	public JComboBox dropdownMenu;
 
 	// Warehouse model
 	private SalesSystemModel model;
@@ -53,10 +58,58 @@ public class PurchaseItemPanel extends JPanel {
 
 		setLayout(new GridBagLayout());
 
+		add(drawDropdownMenu(), getConstrainstForDropdownMenu());
 		add(drawDialogPane(), getDialogPaneConstraints());
 		add(drawBasketPane(), getBasketPaneConstraints());
 
 		setEnabled(false);
+	}
+
+	// ADDED
+
+	// Creates vector for JComboBox
+	private Vector<Object> getdropdownMenuVector() {
+
+		Object value;
+		Vector<Object> productsV = new Vector<Object>();
+
+		for (int i = 0; i < model.getWarehouseTableModel().getRowCount(); i++) {
+			value = model.getWarehouseTableModel().getValueAt(i, 1);
+			productsV.addElement(value);
+
+		}
+
+		return productsV;
+	}
+
+	private JComponent drawDropdownMenu() {
+
+		dropdownMenu = new JComboBox(getdropdownMenuVector());
+
+		/* Choose from dropdown menu */
+		dropdownMenu.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent event) {
+				JComboBox<String> combo = (JComboBox<String>)event.getSource();
+				String selectedItem = (String) combo.getSelectedItem();
+
+				// Finds bar code end fills the dialog fields
+
+				StockTableModel productsTable = model.getWarehouseTableModel();
+				for (int i = 0; i < productsTable.getRowCount(); i++) {
+					if (selectedItem.equals((String) productsTable.getValueAt(
+							i, 1))) {
+						String barCode = productsTable.getValueAt(i, 0)
+								.toString();
+						barCodeField.setText(barCode);
+						fillDialogFields();
+					}
+				}
+
+			}
+		});
+
+		return dropdownMenu;
 	}
 
 	// shopping cart pane
@@ -275,6 +328,18 @@ public class PurchaseItemPanel extends JPanel {
 		gc.fill = GridBagConstraints.BOTH;
 		gc.weightx = 1.0;
 		gc.weighty = 1.0;
+
+		return gc;
+	}
+
+	// Dropdown Menu constraints 
+	private GridBagConstraints getConstrainstForDropdownMenu() {
+		GridBagConstraints gc = new GridBagConstraints();
+
+		gc.weightx = 1;
+		gc.weighty = 0.0d;
+		gc.anchor = GridBagConstraints.CENTER;
+		gc.gridwidth = GridBagConstraints.RELATIVE;
 
 		return gc;
 	}
