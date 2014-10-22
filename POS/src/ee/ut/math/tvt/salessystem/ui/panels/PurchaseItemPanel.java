@@ -42,6 +42,7 @@ public class PurchaseItemPanel extends JPanel {
 
 	private JButton addItemButton;
 
+	// Dropdown list for Menu Items
 	public JComboBox dropdownMenu;
 
 	// Warehouse model
@@ -58,7 +59,6 @@ public class PurchaseItemPanel extends JPanel {
 
 		setLayout(new GridBagLayout());
 
-		add(drawDropdownMenu(), getConstrainstForDropdownMenu());
 		add(drawDialogPane(), getDialogPaneConstraints());
 		add(drawBasketPane(), getBasketPaneConstraints());
 
@@ -82,7 +82,7 @@ public class PurchaseItemPanel extends JPanel {
 		return productsV;
 	}
 
-	private JComponent drawDropdownMenu() {
+	private JComboBox drawDropdownMenu() {
 
 		dropdownMenu = new JComboBox(getdropdownMenuVector());
 
@@ -90,7 +90,7 @@ public class PurchaseItemPanel extends JPanel {
 		dropdownMenu.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent event) {
-				JComboBox<String> combo = (JComboBox<String>)event.getSource();
+				JComboBox<String> combo = (JComboBox<String>) event.getSource();
 				String selectedItem = (String) combo.getSelectedItem();
 
 				// Finds bar code end fills the dialog fields
@@ -135,7 +135,7 @@ public class PurchaseItemPanel extends JPanel {
 
 		// Create the panel
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(5, 2));
+		panel.setLayout(new GridLayout(6, 2));
 		panel.setBorder(BorderFactory.createTitledBorder("Product"));
 
 		// Initialize the textfields
@@ -143,6 +143,7 @@ public class PurchaseItemPanel extends JPanel {
 		quantityField = new JTextField("1");
 		nameField = new JTextField();
 		priceField = new JTextField();
+		dropdownMenu = drawDropdownMenu();
 
 		// Fill the dialog fields if the bar code text field loses focus
 		barCodeField.addFocusListener(new FocusListener() {
@@ -158,6 +159,8 @@ public class PurchaseItemPanel extends JPanel {
 		priceField.setEditable(false);
 
 		// == Add components to the panel
+		panel.add(new JLabel("Menu item:"));
+		panel.add(dropdownMenu);
 
 		// - bar code
 		panel.add(new JLabel("Bar code:"));
@@ -332,7 +335,7 @@ public class PurchaseItemPanel extends JPanel {
 		return gc;
 	}
 
-	// Dropdown Menu constraints 
+	// Dropdown Menu constraints
 	private GridBagConstraints getConstrainstForDropdownMenu() {
 		GridBagConstraints gc = new GridBagConstraints();
 
