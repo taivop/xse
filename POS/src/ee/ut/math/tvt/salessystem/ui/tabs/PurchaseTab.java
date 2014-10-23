@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
+import ee.ut.math.tvt.TRAtarkvaratehnika.ConfirmUI;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -37,6 +38,8 @@ public class PurchaseTab {
 	private PurchaseItemPanel purchasePane;
 
 	private SalesSystemModel model;
+
+	private ConfirmUI confirmWindow;
 
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
@@ -131,6 +134,8 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>new purchase</code> event. */
 	protected void newPurchaseButtonClicked() {
+		//Make dropdown menu active
+		purchasePane.getDropdownMenu().setEnabled(true);
 		log.info("New sale process started");
 		try {
 			domainController.startNewPurchase();
@@ -143,6 +148,8 @@ public class PurchaseTab {
 	/** Event handler for the <code>cancel purchase</code> event. */
 	protected void cancelPurchaseButtonClicked() {
 		log.info("Sale cancelled");
+		//Disable dropdown menu
+		purchasePane.getDropdownMenu().setEnabled(false);
 		try {
 			domainController.cancelCurrentPurchase();
 			endSale();
@@ -155,6 +162,9 @@ public class PurchaseTab {
 	/** Event handler for the <code>submit purchase</code> event. */
 	protected void submitPurchaseButtonClicked() {
 		log.info("Sale complete");
+		// Confirmation window
+		confirmWindow = new ConfirmUI();
+		confirmWindow.setVisible(true);
 		try {
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());
