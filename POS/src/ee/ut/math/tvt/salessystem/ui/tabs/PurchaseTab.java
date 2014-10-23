@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import ee.ut.math.tvt.TRAtarkvaratehnika.ConfirmUI;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -39,7 +38,7 @@ public class PurchaseTab {
 
 	private SalesSystemModel model;
 
-	private ConfirmUI confirmWindow;
+	//private ConfirmUI confirmWindow;
 
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
@@ -163,8 +162,8 @@ public class PurchaseTab {
 	protected void submitPurchaseButtonClicked() {
 		log.info("Sale complete");
 		// Confirmation window
-		confirmWindow = new ConfirmUI();
-		confirmWindow.setVisible(true);
+		//confirmWindow = new ConfirmUI();
+		//confirmWindow.setVisible(true);
 		try {
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());
