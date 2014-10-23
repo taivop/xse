@@ -97,10 +97,6 @@
 			<attribute name="Class-Path" value="${lib.list}" />
 		</manifest>
 
-		<!-- Put everything in ${build} into the jar file-->
-		<jar jarfile="${build}/jar/TRAtarkvaratehnika.jar" manifest="${build}/MANIFEST.MF" basedir="${build}" excludes="jar/TRAtarkvaratehnika.jar">
-		</jar>
-
 		<!-- update properties where necessary -->
 		<propertyfile file="version.properties" comment="Version properties">
 			<entry key="build.minor.number" type="int" default="0" />
@@ -114,6 +110,11 @@
 		<propertyfile file="version.properties" comment="Version properties">
 			<entry key="build.number" operation="=" value="${build.major.number}.${build.minor.number}.${build.revision.number}" />
 		</propertyfile>
+
+		<!-- Put everything in ${build} into the jar file-->
+		<jar jarfile="${build}/jar/TRAtarkvaratehnika.jar" manifest="${build}/MANIFEST.MF" basedir="${build}" excludes="jar/TRAtarkvaratehnika.jar">
+		</jar>
+
 	</target>
 
 	<target name="jrun" depends="build">
