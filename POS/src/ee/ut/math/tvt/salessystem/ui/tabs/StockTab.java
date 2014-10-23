@@ -80,13 +80,11 @@ public class StockTab {
 	protected void addItemToStockClicked() {
 		log.info("New  process started");
 		newItem();
-		// TODO
 	}
 
 	private void newItem() {
-
+		//Setting panel fields enabled
 		stockItemPane.setEnabled(true);
-		// TODO
 	}
 
 	// table of the wareshouse stock
@@ -111,7 +109,7 @@ public class StockTab {
 
 		gc.anchor = GridBagConstraints.WEST;
 		gc.weightx = 0.2;
-		gc.weighty = 0.d;
+		gc.weighty = 0d;
 		gc.gridwidth = GridBagConstraints.REMAINDER;
 		gc.fill = GridBagConstraints.NONE;
 
