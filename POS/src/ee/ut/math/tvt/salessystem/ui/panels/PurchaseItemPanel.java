@@ -92,6 +92,7 @@ public class PurchaseItemPanel extends JPanel {
 	private JComboBox drawDropdownMenu() {
 
 		dropdownMenu = new JComboBox(getdropdownMenuVector());
+		dropdownMenu.setSelectedIndex(-1);
 		dropdownMenu.setEnabled(false);
 
 		/* Choose from dropdown menu */
