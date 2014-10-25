@@ -37,13 +37,12 @@ public class PurchaseItemPanel extends JPanel {
 	// Text field on the dialogPane
 	private JTextField barCodeField;
 	private JTextField quantityField;
-	private JTextField nameField;
 	private JTextField priceField;
 
 	private JButton addItemButton;
 
 	// Dropdown list for Menu Items
-	public JComboBox dropdownMenu;
+	private JComboBox dropdownMenu;
 
 	// Warehouse model
 	private SalesSystemModel model;
@@ -54,6 +53,8 @@ public class PurchaseItemPanel extends JPanel {
 	 * @param model
 	 *            composite model of the warehouse and the shopping cart.
 	 */
+	
+	
 	public PurchaseItemPanel(SalesSystemModel model) {
 		this.model = model;
 
@@ -66,6 +67,12 @@ public class PurchaseItemPanel extends JPanel {
 	}
 
 	// ADDED
+
+	public JComboBox getDropdownMenu() {
+		return dropdownMenu;
+	}
+
+	
 
 	// Creates vector for JComboBox
 	private Vector<Object> getdropdownMenuVector() {
@@ -85,6 +92,7 @@ public class PurchaseItemPanel extends JPanel {
 	private JComboBox drawDropdownMenu() {
 
 		dropdownMenu = new JComboBox(getdropdownMenuVector());
+		dropdownMenu.setEnabled(false);
 
 		/* Choose from dropdown menu */
 		dropdownMenu.addActionListener(new ActionListener() {
@@ -102,6 +110,7 @@ public class PurchaseItemPanel extends JPanel {
 						String barCode = productsTable.getValueAt(i, 0)
 								.toString();
 						barCodeField.setText(barCode);
+						barCodeField.setEnabled(false);
 						fillDialogFields();
 					}
 				}
@@ -135,13 +144,12 @@ public class PurchaseItemPanel extends JPanel {
 
 		// Create the panel
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(6, 2));
+		panel.setLayout(new GridLayout(5, 2));
 		panel.setBorder(BorderFactory.createTitledBorder("Product"));
 
 		// Initialize the textfields
 		barCodeField = new JTextField();
 		quantityField = new JTextField("1");
-		nameField = new JTextField();
 		priceField = new JTextField();
 		dropdownMenu = drawDropdownMenu();
 
@@ -155,8 +163,8 @@ public class PurchaseItemPanel extends JPanel {
 			}
 		});
 
-		nameField.setEditable(false);
 		priceField.setEditable(false);
+		barCodeField.setEditable(false);
 
 		// == Add components to the panel
 		panel.add(new JLabel("Menu item:"));
@@ -170,10 +178,7 @@ public class PurchaseItemPanel extends JPanel {
 		panel.add(new JLabel("Amount:"));
 		panel.add(quantityField);
 
-		// - name
-		panel.add(new JLabel("Name:"));
-		panel.add(nameField);
-
+		
 		// - price
 		panel.add(new JLabel("Price:"));
 		panel.add(priceField);
@@ -196,7 +201,6 @@ public class PurchaseItemPanel extends JPanel {
 		StockItem stockItem = getStockItemByBarcode();
 
 		if (stockItem != null) {
-			nameField.setText(stockItem.getName());
 			String priceString = String.valueOf(stockItem.getPrice());
 			priceField.setText(priceString);
 		} else {
@@ -282,7 +286,6 @@ public class PurchaseItemPanel extends JPanel {
 	public void reset() {
 		barCodeField.setText("");
 		quantityField.setText("1");
-		nameField.setText("");
 		priceField.setText("");
 	}
 

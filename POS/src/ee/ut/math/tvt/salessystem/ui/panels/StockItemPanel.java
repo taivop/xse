@@ -5,11 +5,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -63,13 +67,13 @@ public class StockItemPanel extends JPanel {
 		panel.add(new JLabel("Id:"));
 		panel.add(idField);
 		// - item Name
-		panel.add(new JLabel("Name:"));
+		panel.add(new JLabel("Name:*"));
 		panel.add(nameField);
 		// Price
-		panel.add(new JLabel("Price:"));
+		panel.add(new JLabel("Price:*"));
 		panel.add(itemPriceField);
 		// Quantity
-		panel.add(new JLabel("Quantity:"));
+		panel.add(new JLabel("Quantity:*"));
 		panel.add(quantityField);
 		// Description
 		panel.add(new JLabel("Description:"));
@@ -97,34 +101,71 @@ public class StockItemPanel extends JPanel {
 	}
 
 	public void addItemToStockEventHandler() {
-		// TODO: all fields are required? Or description optional? If id is not
-		// filled should it be generated automatically?
-		// If increasing stock, should price, name match?
+		String incorrectDataStockMessage;
 		try {
 			long id;
+			List<Long> allIds = new ArrayList<Long>();
 			String name;
 			String description;
 			double price;
 			int quantity;
-			// id is inserted
-			if (!idField.getText().equals("")) {
-				id = Long.parseLong(idField.getText());
-				// too big-->new product
-				if (!(id <= model.getWarehouseTableModel().getRowCount()))
-					id = model.getWarehouseTableModel().getRowCount() + 1;
-			} else
-				// id not inserted
-				id = model.getWarehouseTableModel().getRowCount() + 1;
-			System.out.println(id);
-			name = nameField.getText();
-			description = descriptionField.getText();
-			price = Double.parseDouble(itemPriceField.getText());
-			quantity = Integer.parseInt(quantityField.getText());
-			StockItem stockItem = new StockItem(id, name, description, price,
-					quantity);
-			model.getWarehouseTableModel().addItem(stockItem);
+			// name, price(>= 0), quantity (>=0, integer) must be filled
+			if (!nameField.getText().equals("")
+					&& Double.parseDouble(itemPriceField.getText()) >= 0
+					&& Integer.parseInt(quantityField.getText()) >= 0) {
+				// All current id-s to a list
+				List<StockItem> allProducts = model.getWarehouseTableModel()
+						.getTableRows();
+				for (StockItem item : allProducts) {
+					allIds.add(item.getId());
+				}
+
+				// id is inserted and already exists-->Warning
+				if (!idField.getText().equals("")
+						&& allIds.contains(Long.parseLong(idField.getText()))) {
+					String existsInStockMessage = String
+							.format("Item with id %s already exists",
+									idField.getText());
+					JOptionPane.showMessageDialog(this.getParent(),
+							existsInStockMessage, "Warning",
+							JOptionPane.WARNING_MESSAGE);
+					log.info(existsInStockMessage);
+				} else {
+					// Id is not inserted
+					if (idField.getText().equals(""))
+						id = Collections.max(allIds) + 1;
+					// Id is inserted
+					else
+						id = Long.parseLong(idField.getText());
+					name = nameField.getText();
+					description = descriptionField.getText();
+					// Price: two decimal places
+					price = Math.round(Double.parseDouble(itemPriceField
+							.getText()) * 100.0) / 100.0;
+					quantity = Integer.parseInt(quantityField.getText());
+					StockItem stockItem = new StockItem(id, name, description,
+							price, quantity);
+					model.getWarehouseTableModel().addItem(stockItem);
+				}
+			} else {
+				// Open pop-up window with warning
+				incorrectDataStockMessage = String
+						.format("You inserted incorrect data. Price and quantity must be nonnegative");
+				JOptionPane.showMessageDialog(this.getParent(),
+						incorrectDataStockMessage, "Warning",
+						JOptionPane.WARNING_MESSAGE);
+				log.error(incorrectDataStockMessage);
+
+			}
+
 		} catch (NumberFormatException ex) {
-			log.error(ex.getMessage());
+			incorrectDataStockMessage = String
+					.format("You inserted incorrect data. Id must be integer and fields with * are required");
+			// Open pop-up window with warning
+			JOptionPane.showMessageDialog(this.getParent(),
+					incorrectDataStockMessage, "Warning",
+					JOptionPane.WARNING_MESSAGE);
+			log.error(incorrectDataStockMessage);
 
 		}
 	}
