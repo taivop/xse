@@ -99,7 +99,14 @@ public class StockItemPanel extends JPanel {
 		this.nameField.setEnabled(enabled);
 		this.descriptionField.setEnabled(enabled);
 	}
-
+	public void clear() {
+		this.idField.setText("");
+		this.itemPriceField.setText("");
+		this.quantityField.setText("");
+		this.nameField.setText("");
+		this.descriptionField.setText("");
+	}
+	
 	public void addItemToStockEventHandler() {
 		String incorrectDataStockMessage;
 		try {
@@ -146,6 +153,18 @@ public class StockItemPanel extends JPanel {
 					StockItem stockItem = new StockItem(id, name, description,
 							price, quantity);
 					model.getWarehouseTableModel().addItem(stockItem);
+					//message
+					String addedToStockMessage = String
+							.format("Added item with id %s", id);
+					JOptionPane.showMessageDialog(this.getParent(),
+							addedToStockMessage, "Information",
+							JOptionPane.INFORMATION_MESSAGE);
+					log.error(addedToStockMessage);
+					//clearing fields
+					clear();
+					setEnabled(false);
+					
+					
 				}
 			} else {
 				// Open pop-up window with warning
