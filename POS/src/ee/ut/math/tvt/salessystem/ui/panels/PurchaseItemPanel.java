@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -31,6 +33,8 @@ import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
  * Purchase pane + shopping cart table UI.
  */
 public class PurchaseItemPanel extends JPanel {
+
+	private static final Logger log = Logger.getLogger(PurchaseItemPanel.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,8 +57,7 @@ public class PurchaseItemPanel extends JPanel {
 	 * @param model
 	 *            composite model of the warehouse and the shopping cart.
 	 */
-	
-	
+
 	public PurchaseItemPanel(SalesSystemModel model) {
 		this.model = model;
 
@@ -71,8 +74,6 @@ public class PurchaseItemPanel extends JPanel {
 	public JComboBox getDropdownMenu() {
 		return dropdownMenu;
 	}
-
-	
 
 	// Creates vector for JComboBox
 	private Vector<Object> getdropdownMenuVector() {
@@ -179,7 +180,6 @@ public class PurchaseItemPanel extends JPanel {
 		panel.add(new JLabel("Amount:"));
 		panel.add(quantityField);
 
-		
 		// - price
 		panel.add(new JLabel("Price:"));
 		panel.add(priceField);
@@ -232,41 +232,63 @@ public class PurchaseItemPanel extends JPanel {
 			int quantity;
 			try {
 				quantity = Integer.parseInt(quantityField.getText());
+				// } catch (NumberFormatException ex) {
+				// quantity = 1;
+				// }
+				if (quantity > 0) {
+					// Calculate, how many of this item we currently have in our
+					// order
+					int currentAddedQuantityOfItem = 0;
+					List<SoldItem> currentItems = model
+							.getCurrentPurchaseTableModel().getTableRows();
+					for (SoldItem item : currentItems) {
+						if (item.getStockItem().getId() == stockItem.getId())
+							currentAddedQuantityOfItem += item.getQuantity();
+					}
+
+					// Calculate the quantity of items available
+					int availableQuantity = stockItem.getQuantity()
+							- currentAddedQuantityOfItem;
+					if (quantity > availableQuantity) {
+						// We do not have enough of this item in stock
+
+						String notEnoughInStockMessage = String
+								.format("The stock of %s is too low: currently %d in stock and %d in your order.",
+										stockItem.getName(),
+										stockItem.getQuantity(),
+										currentAddedQuantityOfItem);
+
+						// Open pop-up window with warning
+						JOptionPane.showMessageDialog(this.getParent(),
+								notEnoughInStockMessage,
+								"Warning: stock too low",
+								JOptionPane.WARNING_MESSAGE);
+						System.out.println(notEnoughInStockMessage);
+
+					} else {
+						// We have enough of this item
+
+						model.getCurrentPurchaseTableModel().addItem(
+								new SoldItem(stockItem, quantity));
+					}
+				} else {
+					String amountMessage = String
+							.format("You inserted invalid amount");
+					JOptionPane.showMessageDialog(this.getParent(),
+							amountMessage, "Warning",
+							JOptionPane.WARNING_MESSAGE);
+					quantityField.setText("1");
+					log.info("Inserted invalid data");
+
+				}
 			} catch (NumberFormatException ex) {
-				quantity = 1;
-			}
+				String amountMessage = String
+						.format("You inserted invalid amount");
+				JOptionPane.showMessageDialog(this.getParent(), amountMessage,
+						"Warning", JOptionPane.WARNING_MESSAGE);
+				quantityField.setText("1");
+				log.info("Inserted invalid data");
 
-			// Calculate, how many of this item we currently have in our order
-			int currentAddedQuantityOfItem = 0;
-			List<SoldItem> currentItems = model.getCurrentPurchaseTableModel()
-					.getTableRows();
-			for (SoldItem item : currentItems) {
-				if (item.getStockItem().getId() == stockItem.getId())
-					currentAddedQuantityOfItem += item.getQuantity();
-			}
-
-			// Calculate the quantity of items available
-			int availableQuantity = stockItem.getQuantity()
-					- currentAddedQuantityOfItem;
-			if (quantity > availableQuantity) {
-				// We do not have enough of this item in stock
-
-				String notEnoughInStockMessage = String
-						.format("The stock of %s is too low: currently %d in stock and %d in your order.",
-								stockItem.getName(), stockItem.getQuantity(),
-								currentAddedQuantityOfItem);
-
-				// Open pop-up window with warning
-				JOptionPane.showMessageDialog(this.getParent(),
-						notEnoughInStockMessage, "Warning: stock too low",
-						JOptionPane.WARNING_MESSAGE);
-				System.out.println(notEnoughInStockMessage);
-
-			} else {
-				// We have enough of this item
-
-				model.getCurrentPurchaseTableModel().addItem(
-						new SoldItem(stockItem, quantity));
 			}
 		}
 	}
@@ -279,6 +301,7 @@ public class PurchaseItemPanel extends JPanel {
 		this.addItemButton.setEnabled(enabled);
 		this.barCodeField.setEnabled(enabled);
 		this.quantityField.setEnabled(enabled);
+
 	}
 
 	/**
