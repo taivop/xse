@@ -43,6 +43,7 @@ public class PurchaseTab {
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
 		this.model = model;
+		this.domainController.setModel(model);
 	}
 
 	/**
