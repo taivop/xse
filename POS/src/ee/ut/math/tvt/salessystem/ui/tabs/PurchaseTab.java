@@ -17,6 +17,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+import ee.ut.math.tvt.salessystem.ui.windows.ConfirmUI;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -38,7 +39,7 @@ public class PurchaseTab {
 
 	private SalesSystemModel model;
 
-	//private ConfirmUI confirmWindow;
+	private ConfirmUI confirmWindow;
 
 	public PurchaseTab(SalesDomainController controller, SalesSystemModel model) {
 		this.domainController = controller;
@@ -162,9 +163,9 @@ public class PurchaseTab {
 	/** Event handler for the <code>submit purchase</code> event. */
 	protected void submitPurchaseButtonClicked() {
 		log.info("Sale complete");
-		// Confirmation window
-		//confirmWindow = new ConfirmUI();
-		//confirmWindow.setVisible(true);
+		//Confirmation window
+		confirmWindow = new ConfirmUI();
+		confirmWindow.setVisible(true);
 		try {
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());

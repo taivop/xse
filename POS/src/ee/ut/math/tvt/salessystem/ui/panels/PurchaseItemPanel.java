@@ -49,7 +49,11 @@ public class PurchaseItemPanel extends JPanel {
 	private JComboBox dropdownMenu;
 
 	// Warehouse model
-	private SalesSystemModel model;
+	private static SalesSystemModel model;
+
+	public static SalesSystemModel getModel() {
+		return model;
+	}
 
 	/**
 	 * Constructs new purchase item panel.
