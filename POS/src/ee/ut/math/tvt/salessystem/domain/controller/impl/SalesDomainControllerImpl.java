@@ -38,7 +38,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			sum += si.getSum();
 		}
 		
-		//System.out.println("Trying to add new historyitem...");
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -56,9 +55,14 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		Long id = currentHighest + 1;
 		HistoryItem hi = new HistoryItem(id, dateFormat.format(date), timeFormat.format(date), sum, goods);
 		
+		// Decrease stock
+		for (SoldItem si : goods) {
+			int oldStock = model.getWarehouseTableModel().getItemById(si.getId()).getQuantity();
+			int newStock = oldStock - si.getQuantity();
+			model.getWarehouseTableModel().getItemById(si.getId()).setQuantity(newStock);
+		}
 		
 		currentHistoryTableModel.addItem(hi);;
-		//addItem(hi);
 	}
 
 	public void cancelCurrentPurchase() throws VerificationFailedException {				
