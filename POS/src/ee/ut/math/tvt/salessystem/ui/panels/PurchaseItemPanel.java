@@ -132,7 +132,7 @@ public class PurchaseItemPanel extends JPanel {
 	// shopping cart pane
 	private JComponent drawBasketPane() {
 
-		// Create the baskeetPane
+		// Create the basketPane
 		JPanel basketPane = new JPanel();
 		basketPane.setLayout(new GridBagLayout());
 		basketPane.setBorder(BorderFactory.createTitledBorder("Shopping cart"));
