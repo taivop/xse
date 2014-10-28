@@ -79,11 +79,10 @@ public class PurchaseItemPanel extends JPanel {
 		return dropdownMenu;
 	}
 
-	// Creates vector for JComboBox
-	private DefaultComboBoxModel getdropdownModel() {
+	// Creates model for JComboBox
+	public DefaultComboBoxModel getdropdownModel() {
 
 		Object value;
-		// Vector<Object> productsV = new Vector<Object>();
 		DefaultComboBoxModel productsModel = new DefaultComboBoxModel();
 
 		for (int i = 0; i < model.getWarehouseTableModel().getRowCount(); i++) {
@@ -133,7 +132,7 @@ public class PurchaseItemPanel extends JPanel {
 	// shopping cart pane
 	private JComponent drawBasketPane() {
 
-		// Create the basketPane
+		// Create the baskeetPane
 		JPanel basketPane = new JPanel();
 		basketPane.setLayout(new GridBagLayout());
 		basketPane.setBorder(BorderFactory.createTitledBorder("Shopping cart"));

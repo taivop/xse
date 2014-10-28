@@ -135,6 +135,9 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>new purchase</code> event. */
 	protected void newPurchaseButtonClicked() {
+		// refresh Dropdown menu
+		//purchasePane.getDropdownMenu()
+				//.setModel(purchasePane.getdropdownModel());
 		// Make dropdown menu active
 		purchasePane.getDropdownMenu().setEnabled(true);
 		log.info("New sale process started");
