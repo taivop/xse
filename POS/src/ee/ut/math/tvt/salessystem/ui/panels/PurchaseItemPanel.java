@@ -9,9 +9,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -80,23 +80,24 @@ public class PurchaseItemPanel extends JPanel {
 	}
 
 	// Creates vector for JComboBox
-	private Vector<Object> getdropdownMenuVector() {
+	private DefaultComboBoxModel getdropdownModel() {
 
 		Object value;
-		Vector<Object> productsV = new Vector<Object>();
+		// Vector<Object> productsV = new Vector<Object>();
+		DefaultComboBoxModel productsModel = new DefaultComboBoxModel();
 
 		for (int i = 0; i < model.getWarehouseTableModel().getRowCount(); i++) {
 			value = model.getWarehouseTableModel().getValueAt(i, 1);
-			productsV.addElement(value);
+			productsModel.addElement(value);
 
 		}
 
-		return productsV;
+		return productsModel;
 	}
 
 	private JComboBox drawDropdownMenu() {
 
-		dropdownMenu = new JComboBox(getdropdownMenuVector());
+		dropdownMenu = new JComboBox(getdropdownModel());
 		dropdownMenu.setSelectedIndex(-1);
 		dropdownMenu.setEnabled(false);
 
@@ -108,19 +109,21 @@ public class PurchaseItemPanel extends JPanel {
 				String selectedItem = (String) combo.getSelectedItem();
 
 				// Finds bar code end fills the dialog fields
+				if (dropdownMenu.getSelectedIndex() != -1) {
+					StockTableModel productsTable = model
+							.getWarehouseTableModel();
+					for (int i = 0; i < productsTable.getRowCount(); i++) {
 
-				StockTableModel productsTable = model.getWarehouseTableModel();
-				for (int i = 0; i < productsTable.getRowCount(); i++) {
-					if (selectedItem.equals((String) productsTable.getValueAt(
-							i, 1))) {
-						String barCode = productsTable.getValueAt(i, 0)
-								.toString();
-						barCodeField.setText(barCode);
-						barCodeField.setEnabled(false);
-						fillDialogFields();
+						if (selectedItem.equals((String) productsTable
+								.getValueAt(i, 1))) {
+							String barCode = productsTable.getValueAt(i, 0)
+									.toString();
+							barCodeField.setText(barCode);
+							barCodeField.setEnabled(false);
+							fillDialogFields();
+						}
 					}
 				}
-
 			}
 		});
 

@@ -135,7 +135,7 @@ public class PurchaseTab {
 
 	/** Event handler for the <code>new purchase</code> event. */
 	protected void newPurchaseButtonClicked() {
-		//Make dropdown menu active
+		// Make dropdown menu active
 		purchasePane.getDropdownMenu().setEnabled(true);
 		log.info("New sale process started");
 		try {
@@ -149,8 +149,9 @@ public class PurchaseTab {
 	/** Event handler for the <code>cancel purchase</code> event. */
 	protected void cancelPurchaseButtonClicked() {
 		log.info("Sale cancelled");
-		//Disable dropdown menu
+		// Disable dropdown menu
 		purchasePane.getDropdownMenu().setEnabled(false);
+		purchasePane.getDropdownMenu().setSelectedIndex(-1);
 		try {
 			domainController.cancelCurrentPurchase();
 			endSale();
@@ -163,7 +164,7 @@ public class PurchaseTab {
 	/** Event handler for the <code>submit purchase</code> event. */
 	protected void submitPurchaseButtonClicked() {
 		log.info("Sale complete");
-		//Confirmation window
+		// Confirmation window
 		confirmWindow = new ConfirmUI();
 		confirmWindow.setVisible(true);
 		try {
