@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 
 public class ConfirmUI extends JFrame {
@@ -135,10 +134,11 @@ public class ConfirmUI extends JFrame {
 
 		amount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!amount.getText().equals("") && isNumeric(amount.getText())
-						&& Double.parseDouble(amount.getText()) >= 0) {
+				if (!amount.getText().equals("") && isNumeric(amount.getText().replace(',', '.'))
+						&& Double.parseDouble(amount.getText().replace(',', '.')) >= 0) {
+			
 
-					Double paid = Double.valueOf(amount.getText());
+					Double paid = Double.valueOf(amount.getText().replace(',', '.'));
 					changeValue = paid - calculatedSum;
 					
 					if (changeValue >= 0) {					// show change amount only if entered amount was large enough
