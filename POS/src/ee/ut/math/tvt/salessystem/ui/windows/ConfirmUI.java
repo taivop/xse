@@ -32,7 +32,7 @@ public class ConfirmUI extends JFrame {
 	 * state when it was left.
 	 */
 	Double changeValue;
-	
+
 	JLabel changeLabel;
 
 	JButton confirmButton;
@@ -61,8 +61,8 @@ public class ConfirmUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				// check if we had enough money
-				if (changeValue != null) {		// check if changeValue is set
-					
+				if (changeValue != null) { // check if changeValue is set
+
 					if (changeValue < 0) {
 						String notEnoughMoneyMessage = "Amount paid was smaller than order sum.";
 						JOptionPane.showMessageDialog(null,
@@ -71,7 +71,11 @@ public class ConfirmUI extends JFrame {
 					} else {
 						// Save order
 						purchaseTab.updateHistory();
+						String doneMessage = "Order successfully accepted";
+						JOptionPane.showMessageDialog(null, doneMessage,
+								"Information", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
+
 					}
 				} else {
 					String noPaymentInsertedMessage = "Amount paid not entered. (You must press ENTER after entering the sum.)";
@@ -134,15 +138,18 @@ public class ConfirmUI extends JFrame {
 
 		amount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!amount.getText().equals("") && isNumeric(amount.getText().replace(',', '.'))
-						&& Double.parseDouble(amount.getText().replace(',', '.')) >= 0) {
-			
+				if (!amount.getText().equals("")
+						&& isNumeric(amount.getText().replace(',', '.'))
+						&& Double.parseDouble(amount.getText()
+								.replace(',', '.')) >= 0) {
 
-					double paid = Math.round(Double.valueOf(amount.getText().replace(',', '.'))* 100.0) / 100.0;
-					
-					changeValue = Math.round((paid - calculatedSum)*100.0)/100.0;
-		
-					if (changeValue >= 0) {					// show change amount only if entered amount was large enough
+					double paid = Math.round(Double.valueOf(amount.getText()
+							.replace(',', '.')) * 100.0) / 100.0;
+
+					changeValue = Math.round((paid - calculatedSum) * 100.0) / 100.0;
+
+					if (changeValue >= 0) { // show change amount only if
+											// entered amount was large enough
 						String change = changeValue.toString();
 						changeLabel.setText(change);
 					} else {
@@ -150,10 +157,8 @@ public class ConfirmUI extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								notEnoughMoneyMessage, "Warning",
 								JOptionPane.WARNING_MESSAGE);
-					
+
 					}
-					
-					
 
 				} else {
 					// Open pop-up window with warning
