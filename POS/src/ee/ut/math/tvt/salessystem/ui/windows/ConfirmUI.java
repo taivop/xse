@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-import ee.ut.math.tvt.salessystem.ui.panels.StockItemPanel;
 
 public class ConfirmUI extends JFrame {
 
@@ -31,6 +30,8 @@ public class ConfirmUI extends JFrame {
 	 * screen should be closed/hided and the shopping cart should restore the
 	 * state when it was left.
 	 */
+	Double changeValue;
+	
 	JLabel changeLabel;
 
 	JButton confirmButton;
@@ -53,9 +54,25 @@ public class ConfirmUI extends JFrame {
 
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// accept payment
-				// Save order
-				// submitCurrentPurchase(List<SoldItem>)
+				// check if we had enough money
+				if (changeValue != null) {		// check if changeValue is set
+					
+					if (changeValue < 0) {
+						String notEnoughMoneyMessage = "Amount paid was smaller than order sum.";
+						JOptionPane.showMessageDialog(null,
+								notEnoughMoneyMessage, "Warning",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						// accept payment
+						// Save order
+						// submitCurrentPurchase(List<SoldItem>)
+					}
+				} else {
+					String noPaymentInsertedMessage = "Amount paid not entered. (You must press ENTER after entering the sum.)";
+					JOptionPane.showMessageDialog(null,
+							noPaymentInsertedMessage, "Warning",
+							JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
@@ -99,7 +116,7 @@ public class ConfirmUI extends JFrame {
 
 		final JTextField amount = new JTextField();
 
-		paymentInformation.add(new JLabel("Amount"));
+		paymentInformation.add(new JLabel("Amount paid"));
 		paymentInformation.add(amount);
 
 		final String incorrectDataStockMessage = String
@@ -110,9 +127,20 @@ public class ConfirmUI extends JFrame {
 						&& Double.parseDouble(amount.getText()) >= 0) {
 
 					Double paid = Double.valueOf(amount.getText());
-					Double changeValue = paid - calculatedSum;
-					String change = changeValue.toString();
-					changeLabel.setText(change);
+					changeValue = paid - calculatedSum;
+					
+					if (changeValue >= 0) {					// show change amount only if entered amount was large enough
+						String change = changeValue.toString();
+						changeLabel.setText(change);
+					} else {
+						String notEnoughMoneyMessage = "Amount paid was smaller than order sum.";
+						JOptionPane.showMessageDialog(null,
+								notEnoughMoneyMessage, "Warning",
+								JOptionPane.WARNING_MESSAGE);
+					
+					}
+					
+					
 				} else {
 					// Open pop-up window with warning
 
