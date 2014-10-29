@@ -48,7 +48,7 @@ public class ConfirmUI extends JFrame {
 		setTitle("Confirm");
 		setSize(300, 300);
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
