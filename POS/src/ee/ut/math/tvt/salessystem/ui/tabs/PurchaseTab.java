@@ -38,6 +38,10 @@ public class PurchaseTab {
 
 	private PurchaseItemPanel purchasePane;
 
+	public PurchaseItemPanel getPurchasePane() {
+		return purchasePane;
+	}
+
 	private SalesSystemModel model;
 
 	private ConfirmUI confirmWindow;

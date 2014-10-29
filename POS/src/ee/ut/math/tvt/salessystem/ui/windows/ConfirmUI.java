@@ -75,6 +75,7 @@ public class ConfirmUI extends JFrame {
 						JOptionPane.showMessageDialog(null, doneMessage,
 								"Information", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
+						purchaseTab.getPurchasePane().getDropdownMenu().setSelectedIndex(-1);
 
 					}
 				} else {
