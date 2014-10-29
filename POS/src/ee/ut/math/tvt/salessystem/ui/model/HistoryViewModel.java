@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.math.RoundingMode;
+
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.ViewItem;
 
@@ -20,9 +22,9 @@ public class HistoryViewModel extends SalesSystemTableModel<ViewItem>{
 		case 2:
 			return item.getQuantity();
 		case 3:
-			return item.getPrice();
+			return item.getPrice().setScale(2, RoundingMode.HALF_UP);	// round to two decimals
 		case 4:
-			return item.getTotal();
+			return item.getTotal().setScale(2, RoundingMode.HALF_UP);	// round to two decimals
 		}
 		return null;
 	}
