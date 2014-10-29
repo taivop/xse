@@ -116,9 +116,10 @@ public class StockItemPanel extends JPanel {
 			String description;
 			double price;
 			int quantity;
+			String priceString = itemPriceField.getText().replace(',', '.');
 			// name, price(>= 0), quantity (>=0, integer) must be filled
 			if (!nameField.getText().equals("")
-					&& Double.parseDouble(itemPriceField.getText()) >= 0
+					&& Double.parseDouble(priceString) >= 0
 					&& Integer.parseInt(quantityField.getText()) >= 0) {
 				// All current id-s to a list
 				List<StockItem> allProducts = model.getWarehouseTableModel()
@@ -147,8 +148,7 @@ public class StockItemPanel extends JPanel {
 					name = nameField.getText();
 					description = descriptionField.getText();
 					// Price: two decimal places
-					price = Math.round(Double.parseDouble(itemPriceField
-							.getText()) * 100.0) / 100.0;
+					price = Math.round(Double.parseDouble(priceString) * 100.0) / 100.0;
 					quantity = Integer.parseInt(quantityField.getText());
 					StockItem stockItem = new StockItem(id, name, description,
 							price, quantity);

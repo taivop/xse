@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-
 import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 
 public class ConfirmUI extends JFrame {
@@ -49,7 +48,7 @@ public class ConfirmUI extends JFrame {
 		setTitle("Confirm");
 		setSize(300, 300);
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
@@ -135,12 +134,14 @@ public class ConfirmUI extends JFrame {
 
 		amount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!amount.getText().equals("") && isNumeric(amount.getText())
-						&& Double.parseDouble(amount.getText()) >= 0) {
+				if (!amount.getText().equals("") && isNumeric(amount.getText().replace(',', '.'))
+						&& Double.parseDouble(amount.getText().replace(',', '.')) >= 0) {
+			
 
-					Double paid = Double.valueOf(amount.getText());
-					changeValue = paid - calculatedSum;
+					double paid = Math.round(Double.valueOf(amount.getText().replace(',', '.'))* 100.0) / 100.0;
 					
+					changeValue = Math.round((paid - calculatedSum)*100.0)/100.0;
+		
 					if (changeValue >= 0) {					// show change amount only if entered amount was large enough
 						String change = changeValue.toString();
 						changeLabel.setText(change);
