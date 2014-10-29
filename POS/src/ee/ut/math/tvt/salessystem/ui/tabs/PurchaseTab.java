@@ -138,7 +138,8 @@ public class PurchaseTab {
 		// refresh Dropdown menu
 		purchasePane.getDropdownMenu()
 				.setModel(purchasePane.getdropdownModel());
-		// Make dropdown menu active
+		purchasePane.getDropdownMenu()
+		.setSelectedIndex(-1);
 		purchasePane.getDropdownMenu().setEnabled(true);
 		log.info("New sale process started");
 		try {
