@@ -138,9 +138,10 @@ public class ConfirmUI extends JFrame {
 						&& Double.parseDouble(amount.getText().replace(',', '.')) >= 0) {
 			
 
-					Double paid = Double.valueOf(amount.getText().replace(',', '.'));
-					changeValue = paid - calculatedSum;
+					double paid = Math.round(Double.valueOf(amount.getText().replace(',', '.'))* 100.0) / 100.0;
 					
+					changeValue = Math.round((paid - calculatedSum)*100.0)/100.0;
+		
 					if (changeValue >= 0) {					// show change amount only if entered amount was large enough
 						String change = changeValue.toString();
 						changeLabel.setText(change);
