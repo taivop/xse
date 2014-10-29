@@ -137,7 +137,7 @@ public class StockItemPanel extends JPanel {
 					JOptionPane.showMessageDialog(this.getParent(),
 							existsInStockMessage, "Warning",
 							JOptionPane.WARNING_MESSAGE);
-					log.info(existsInStockMessage);
+					log.error(existsInStockMessage);
 				} else {
 					// Id is not inserted
 					if (idField.getText().equals(""))
@@ -159,7 +159,7 @@ public class StockItemPanel extends JPanel {
 					JOptionPane.showMessageDialog(this.getParent(),
 							addedToStockMessage, "Information",
 							JOptionPane.INFORMATION_MESSAGE);
-					log.error(addedToStockMessage);
+					log.info(addedToStockMessage);
 					//clearing fields
 					clear();
 					setEnabled(false);
