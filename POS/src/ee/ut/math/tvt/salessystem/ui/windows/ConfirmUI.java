@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.ui.model.PurchaseInfoTableModel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-import ee.ut.math.tvt.salessystem.ui.panels.StockItemPanel;
+import ee.ut.math.tvt.salessystem.ui.tabs.PurchaseTab;
 
 public class ConfirmUI extends JFrame {
 
@@ -37,7 +37,11 @@ public class ConfirmUI extends JFrame {
 
 	JButton cancelButton;
 
-	public ConfirmUI() {
+	PurchaseTab purchaseTab;
+
+	public ConfirmUI(final PurchaseTab purchaseTab) {
+
+		this.purchaseTab = purchaseTab;
 
 		setTitle("Confirm");
 		setSize(300, 300);
@@ -53,9 +57,9 @@ public class ConfirmUI extends JFrame {
 
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// accept payment
-				// Save order
-				// submitCurrentPurchase(List<SoldItem>)
+
+				purchaseTab.updateHistory();
+				dispose();
 			}
 		});
 
@@ -102,24 +106,36 @@ public class ConfirmUI extends JFrame {
 		paymentInformation.add(new JLabel("Amount"));
 		paymentInformation.add(amount);
 
-		final String incorrectDataStockMessage = String
+		final String incorrectDataConfirmUIMessage = String
 				.format("You inserted incorrect data. Price and quantity must be nonnegative");
+
+		final String incorrectPaymentAmountMessage = String
+				.format("Inserted payment is less than order cost.");
+
 		amount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!amount.getText().equals("") && isNumeric(amount.getText())
 						&& Double.parseDouble(amount.getText()) >= 0) {
 
-					Double paid = Double.valueOf(amount.getText());
-					Double changeValue = paid - calculatedSum;
-					String change = changeValue.toString();
-					changeLabel.setText(change);
+					if (Double.parseDouble(amount.getText()) > calculatedSum) {
+						Double paid = Double.valueOf(amount.getText());
+						Double changeValue = paid - calculatedSum;
+						String change = changeValue.toString();
+						changeLabel.setText(change);
+					} else {
+
+						JOptionPane.showMessageDialog(null,
+								incorrectPaymentAmountMessage, "Warning",
+								JOptionPane.WARNING_MESSAGE);
+						log.error(incorrectPaymentAmountMessage);
+					}
 				} else {
 					// Open pop-up window with warning
 
 					JOptionPane.showMessageDialog(null,
-							incorrectDataStockMessage, "Warning",
+							incorrectDataConfirmUIMessage, "Warning",
 							JOptionPane.WARNING_MESSAGE);
-					log.error(incorrectDataStockMessage);
+					log.error(incorrectDataConfirmUIMessage);
 				}
 			}
 		});

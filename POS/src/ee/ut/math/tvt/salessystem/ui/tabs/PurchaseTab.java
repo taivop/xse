@@ -168,8 +168,12 @@ public class PurchaseTab {
 	protected void submitPurchaseButtonClicked() {
 		log.info("Sale complete");
 		// Confirmation window
-		confirmWindow = new ConfirmUI();
+		confirmWindow = new ConfirmUI(this);
 		confirmWindow.setVisible(true);
+		
+	}
+	
+	public void updateHistory(){
 		try {
 			log.debug("Contents of the current basket:\n"
 					+ model.getCurrentPurchaseTableModel());
