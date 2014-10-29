@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
@@ -107,7 +108,17 @@ public class PurchaseTab {
 		JButton b = new JButton("Confirm");
 		b.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				submitPurchaseButtonClicked();
+				//if shopping cart not empty
+				if(model.getCurrentPurchaseTableModel().getRowCount()!=0){
+					submitPurchaseButtonClicked();
+				}
+				else{
+					String basketEmpty = "Shopping cart is empty.";
+					JOptionPane.showMessageDialog(null,
+							basketEmpty, "Warning",
+							JOptionPane.WARNING_MESSAGE);
+					log.info(basketEmpty);
+				}
 			}
 		});
 		b.setEnabled(false);
