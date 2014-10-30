@@ -22,6 +22,8 @@ public interface SalesDomainController {
      */
     public List<StockItem> loadWarehouseState();
     
+    public void endSession();
+    
     public List<ViewItem> loadHistoryView(int p) throws Exception;
 
     // business processes

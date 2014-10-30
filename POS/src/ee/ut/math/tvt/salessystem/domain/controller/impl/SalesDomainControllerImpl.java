@@ -28,6 +28,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		this.model = model;
 	}
 	
+	public void endSession() {
+	    HibernateUtil.closeSession();
+	}
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
