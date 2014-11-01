@@ -10,6 +10,7 @@
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
 	<property name="etc.dir" location="lib" />
+	<property name="conf.dir" location="conf" />
 	<property name="lib.dir" value="${basedir}/lib" />
 
 	<!-- Database variables -->
@@ -68,6 +69,12 @@
 		</fileset>
 	</path>
 
+	<!-- Copy hibernate.cfg.xml to build folder or else the JAR won't work-->
+	<target name="copymetafiles">
+		<copy file="${conf.dir}/hibernate.cfg.xml" tofile="${build}/hibernate.cfg.xml" />
+	</target>
+
+
 	<target name="init">
 		<!-- Create time stamp -->
 		<tstamp />
@@ -82,7 +89,7 @@
 		<delete dir="${dist}" />
 	</target>
 
-	<target name="build" description="compile the source" depends="init">
+	<target name="build" description="compile the source" depends="init,copymetafiles">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac srcdir="${src}" destdir="${build}" classpathref="compile.classpath">
 		</javac>
