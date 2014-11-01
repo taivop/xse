@@ -32,6 +32,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public void setModel(SalesSystemModel model) {
 		this.model = model;
 	}
+	public SalesSystemModel getModel() {
+		return this.model;
+	}
 	
 	public void endSession() {
 	    HibernateUtil.closeSession();

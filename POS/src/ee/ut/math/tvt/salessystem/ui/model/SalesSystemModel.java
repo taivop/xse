@@ -47,6 +47,10 @@ public class SalesSystemModel {
 	public StockTableModel getWarehouseTableModel() {
 		return warehouseTableModel;
 	}
+	
+	public SalesDomainController getSalesDomainController() {
+		return domainController;
+	}
 
 	public PurchaseInfoTableModel getCurrentPurchaseTableModel() {
 		return currentPurchaseTableModel;
