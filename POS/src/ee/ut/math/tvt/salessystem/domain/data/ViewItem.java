@@ -1,12 +1,7 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
-import java.beans.Transient;
 import java.math.BigDecimal;
 
-
-/**
- * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
- */
 
 public class ViewItem implements Cloneable, DisplayableItem, Comparable<ViewItem> {
 
@@ -31,9 +26,6 @@ public class ViewItem implements Cloneable, DisplayableItem, Comparable<ViewItem
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
-	private StockItem stockItem;
     
 	
 	public BigDecimal getPrice() {
