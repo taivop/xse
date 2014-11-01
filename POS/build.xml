@@ -114,14 +114,19 @@
 		<!-- Create the distribution directory -->
 		<mkdir dir="${build}/jar" />
 
-		<!-- Copy lib and etc dirs to build dir -->
-		<echo message="${etc.dir}" />
-		<echo message="${lib.dir}" />
+		<!-- Copy necessary stuff to build dir -->
 		<copy todir="${build}/lib">
 			<fileset dir="${lib.dir}" />
 		</copy>
 		<copy todir="${build}/etc">
 			<fileset dir="${etc.dir}" />
+		</copy>
+		<copy todir="${build}">
+			<resources>
+				<file file="${basedir}/application.properties"/>
+				<file file="${basedir}/version.properties"/>
+				<file file="${basedir}/rabbit.jpg"/>
+			</resources>
 		</copy>
 
 
@@ -131,7 +136,7 @@
 				<fileset dir="lib">
 					<include name="**/*.jar" />
 				</fileset>
-				<fileset dir="etc" >
+				<fileset dir="etc">
 					<include name="log4j.dtd" />
 					<include name="log4j.xml" />
 				</fileset>
