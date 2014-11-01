@@ -16,6 +16,7 @@ import ee.ut.math.tvt.salessystem.domain.data.ViewItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
  * Implementation of the sales domain controller.
