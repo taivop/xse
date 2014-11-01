@@ -9,7 +9,7 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="etc.dir" location="lib" />
+	<property name="etc.dir" location="${basedir}/etc" />
 	<property name="conf.dir" location="conf" />
 	<property name="lib.dir" value="${basedir}/lib" />
 
@@ -34,6 +34,7 @@
 
 	<!-- Run classpath -->
 	<path id="run.classpath">
+		<pathelement location="${conf.dir}" />
 		<pathelement location="${build}" />
 		<pathelement location="." />
 		<fileset dir="${lib.dir}">
@@ -46,7 +47,6 @@
 
 		<pathelement location="${build.classes.dir}" />
 		<!-- configuration -->
-		<pathelement location="${conf.dir}" />
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
@@ -114,15 +114,35 @@
 		<!-- Create the distribution directory -->
 		<mkdir dir="${build}/jar" />
 
+		<!-- Copy necessary stuff to build dir -->
+		<copy todir="${build}/lib">
+			<fileset dir="${lib.dir}" />
+		</copy>
+		<copy todir="${build}/etc">
+			<fileset dir="${etc.dir}" />
+		</copy>
+		<copy todir="${build}">
+			<resources>
+				<file file="${basedir}/application.properties"/>
+				<file file="${basedir}/version.properties"/>
+				<file file="${basedir}/rabbit.jpg"/>
+			</resources>
+		</copy>
+
+
 		<!-- Create manifest file-->
 		<manifestclasspath property="lib.list" jarfile="${build}/jar/TRAtarkvaratehnika.jar">
 			<classpath path="${build}">
-				<pathelement path="lib/log4j-1.2.17.jar" />
-				<pathelement path="lib/jgoodies-common-1.6.0.jar" />
-				<pathelement path="lib/jgoodies-looks-2.5.3.jar" />
-				<pathelement path="etc" />
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="etc">
+					<include name="log4j.dtd" />
+					<include name="log4j.xml" />
+				</fileset>
 			</classpath>
 		</manifestclasspath>
+
 		<manifest file="${build}/MANIFEST.MF">
 			<attribute name="Main-Class" value="ee/ut/math/tvt/TRAtarkvaratehnika/Intro" />
 			<attribute name="Class-Path" value="${lib.list}" />
