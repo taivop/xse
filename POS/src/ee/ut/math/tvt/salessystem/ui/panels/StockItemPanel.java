@@ -162,16 +162,16 @@ public class StockItemPanel extends JPanel {
 
 					try {
 						session.beginTransaction();
-						StockItem stockItem = new StockItem(id, name,
+						StockItem stockItem = new StockItem(name,
 								description, price, quantity);
 						session.save(stockItem);
+						session.flush();
 						session.getTransaction().commit();
+						session.clear();
 
 					} catch (Exception e1) {
 						log.error("Insert failed");
 					}
-					//update Stockitem table
-					model.getWarehouseTableModel().populateWithData(domainController.loadWarehouseState());
 					
 					// message
 					String addedToStockMessage = String.format(
@@ -180,6 +180,9 @@ public class StockItemPanel extends JPanel {
 							addedToStockMessage, "Information",
 							JOptionPane.INFORMATION_MESSAGE);
 					log.info(addedToStockMessage);
+					//update Stockitem table
+					model.getWarehouseTableModel().populateWithData(domainController.loadWarehouseState());
+					
 					// clearing fields
 					clear();
 					setEnabled(false);

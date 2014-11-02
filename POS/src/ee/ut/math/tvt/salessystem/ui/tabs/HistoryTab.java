@@ -67,9 +67,8 @@ public class HistoryTab {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				int rowNum = Integer.parseInt(String.valueOf(history.rowAtPoint(e.getPoint())));	
-				
+/*Annabell: commented out. Not currently working. 
+ * TODO:
 				viewModel = model.getCurrentHistoryViewModel();
 
 				try {
@@ -112,7 +111,7 @@ public class HistoryTab {
 				
 
 				historyView.add(historyViewPanel);
-				historyView.setVisible(true);
+				historyView.setVisible(true);*/
 			}
 
 			@Override

@@ -24,9 +24,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Column(name = "sale_id")
 	private Long sale_id;
 	
-	@Transient	// TODO is this correct? what about STOCKITEM_ID?
-    private StockItem stockItem;
-    
+
 	@Column(name = "name")
     private String name;
     
@@ -36,16 +34,29 @@ public class SoldItem implements Cloneable, DisplayableItem {
     @Column(name = "itemprice")
     private double price;
     
+    @Column(name = "stockitem_id")
+    private Long stockItemId;
+    
+    
+    
     public SoldItem(StockItem stockItem, int quantity) {
-        this.stockItem = stockItem;
-        this.id = stockItem.getId();
+      //  this.stockItem = stockItem;
+        this.stockItemId = stockItem.getId();
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
         this.quantity = quantity;
         
     }
     
-    public Long getSale_id() {
+    public Long getStockItemId() {
+		return stockItemId;
+	}
+
+	public void setStockItemId(Long stockItemId) {
+		this.stockItemId = stockItemId;
+	}
+
+	public Long getSale_id() {
 		return sale_id;
 	}
 
@@ -89,7 +100,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
     public double getSum() {
         return price * ((double) quantity);
     }
-
+/*
     public StockItem getStockItem() {
         return stockItem;
     }
@@ -97,5 +108,5 @@ public class SoldItem implements Cloneable, DisplayableItem {
     public void setStockItem(StockItem stockItem) {
         this.stockItem = stockItem;
     }
-    
+    */
 }

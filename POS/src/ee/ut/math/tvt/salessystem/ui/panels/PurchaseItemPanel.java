@@ -248,7 +248,7 @@ public class PurchaseItemPanel extends JPanel {
 					List<SoldItem> currentItems = model
 							.getCurrentPurchaseTableModel().getTableRows();
 					for (SoldItem item : currentItems) {
-						if (item.getStockItem().getId() == stockItem.getId())
+						if (item.getStockItemId() == stockItem.getId())
 							currentAddedQuantityOfItem += item.getQuantity();
 					}
 
