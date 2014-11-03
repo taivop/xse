@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -18,7 +19,6 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.data.ViewItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
@@ -103,9 +103,11 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			session.clear();
 
 			// updating right away
-			model.getCurrentHistoryTableModel().populateWithData(loadHistoryTab());
-			model.getWarehouseTableModel().populateWithData(loadWarehouseState());
-			//model.updateHistoryTab();
+			model.getCurrentHistoryTableModel().populateWithData(
+					loadHistoryTab());
+			model.getWarehouseTableModel().populateWithData(
+					loadWarehouseState());
+			// model.updateHistoryTab();
 
 		} catch (Exception e1) {
 			log.error(e1.getStackTrace());
@@ -147,14 +149,19 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public List<ViewItem> loadHistoryView(int rowNum) {
+		//data frm DB
 		HistoryItem hi = model.getCurrentHistoryTableModel().getTableRows()
 				.get(rowNum);
-		List<SoldItem> goods = hi.getGoods();
+		Long saleId = hi.getId();
+		Query query = session
+				.createQuery("from SoldItem where sale_id=:id");
+		query.setParameter("id", saleId);
 
+		List<SoldItem> goods = query.list();
 		ArrayList<ViewItem> viewItems = new ArrayList<ViewItem>();
 
 		for (SoldItem g : goods) {
-			ViewItem vi = new ViewItem(g.getId(), g.getName(), new BigDecimal(
+			ViewItem vi = new ViewItem(g.getStockItemId(), g.getName(), new BigDecimal(
 					g.getPrice()), g.getQuantity(), new BigDecimal(g.getSum()));
 			viewItems.add(vi);
 		}

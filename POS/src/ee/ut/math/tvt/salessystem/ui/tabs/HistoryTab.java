@@ -67,9 +67,10 @@ public class HistoryTab {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-/*Annabell: commented out. Not currently working. 
- * TODO:
+//Annabell: commented out. Not currently working. 
+ // TODO:
 				viewModel = model.getCurrentHistoryViewModel();
+				int rowNum = Integer.parseInt(String.valueOf(history.rowAtPoint(e.getPoint())));
 
 				try {
 					viewModel.populateWithData(domainController.loadHistoryView(rowNum));
@@ -111,7 +112,7 @@ public class HistoryTab {
 				
 
 				historyView.add(historyViewPanel);
-				historyView.setVisible(true);*/
+				historyView.setVisible(true);
 			}
 
 			@Override
