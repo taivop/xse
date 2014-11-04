@@ -17,7 +17,7 @@ public class Intro{
 
 
 	public static void main(String[] args) {
-		DOMConfigurator.configure("etc/log4j.xml");		// TODO doesn't work in JAR; need to use relative path or sth
+		//DOMConfigurator.configure("log4j.xml");		// TODO doesn't work in JAR; need to use relative path or sth
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 
 		if (args.length == 1 && args[0].equals(MODE)) {

@@ -118,30 +118,29 @@
 		<copy todir="${build}/lib">
 			<fileset dir="${lib.dir}" />
 		</copy>
-		<copy todir="${build}/etc">
+		<copy todir="${build}">
 			<fileset dir="${etc.dir}" />
 		</copy>
 		<copy todir="${build}">
 			<resources>
-				<file file="${basedir}/application.properties"/>
-				<file file="${basedir}/version.properties"/>
-				<file file="${basedir}/rabbit.jpg"/>
+				<file file="${basedir}/application.properties" />
+				<file file="${basedir}/version.properties" />
+				<file file="${basedir}/rabbit.jpg" />
 			</resources>
 		</copy>
 
 
 		<!-- Create manifest file-->
 		<manifestclasspath property="lib.list" jarfile="${build}/jar/TRAtarkvaratehnika.jar">
-			<classpath path="${build}">
+			<classpath id="manifest.classpath" path="${build}">
 				<fileset dir="lib">
 					<include name="**/*.jar" />
 				</fileset>
-				<fileset dir="etc">
-					<include name="log4j.dtd" />
-					<include name="log4j.xml" />
-				</fileset>
 			</classpath>
 		</manifestclasspath>
+
+		<pathconvert property="classpathProp" refid="manifest.classpath" />
+		<echo>Classpath is ${classpathProp}</echo>
 
 		<manifest file="${build}/MANIFEST.MF">
 			<attribute name="Main-Class" value="ee/ut/math/tvt/TRAtarkvaratehnika/Intro" />
@@ -169,7 +168,9 @@
 	</target>
 
 	<target name="jrun" depends="build">
-		<java jar="${build}/jar/TRAtarkvaratehnika.jar" fork="true" />
+		<java jar="${build}/jar/TRAtarkvaratehnika.jar" fork="true">
+			<!--<jvmarg value="-Dlog4j.debug" />-->
+		</java>
 	</target>
 
 	<target name="git_commit">
