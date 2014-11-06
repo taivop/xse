@@ -9,7 +9,7 @@
 	<property name="src" location="src" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="etc.dir" location="lib" />
+	<property name="etc.dir" location="${basedir}/etc" />
 	<property name="conf.dir" location="conf" />
 	<property name="lib.dir" value="${basedir}/lib" />
 
@@ -34,6 +34,7 @@
 
 	<!-- Run classpath -->
 	<path id="run.classpath">
+		<pathelement location="${conf.dir}" />
 		<pathelement location="${build}" />
 		<pathelement location="." />
 		<fileset dir="${lib.dir}">
@@ -46,7 +47,6 @@
 
 		<pathelement location="${build.classes.dir}" />
 		<!-- configuration -->
-		<pathelement location="${conf.dir}" />
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
@@ -114,15 +114,34 @@
 		<!-- Create the distribution directory -->
 		<mkdir dir="${build}/jar" />
 
+		<!-- Copy necessary stuff to build dir -->
+		<copy todir="${build}/lib">
+			<fileset dir="${lib.dir}" />
+		</copy>
+		<copy todir="${build}">
+			<fileset dir="${etc.dir}" />
+		</copy>
+		<copy todir="${build}">
+			<resources>
+				<file file="${basedir}/application.properties" />
+				<file file="${basedir}/version.properties" />
+				<file file="${basedir}/rabbit.jpg" />
+			</resources>
+		</copy>
+
+
 		<!-- Create manifest file-->
 		<manifestclasspath property="lib.list" jarfile="${build}/jar/TRAtarkvaratehnika.jar">
-			<classpath path="${build}">
-				<pathelement path="lib/log4j-1.2.17.jar" />
-				<pathelement path="lib/jgoodies-common-1.6.0.jar" />
-				<pathelement path="lib/jgoodies-looks-2.5.3.jar" />
-				<pathelement path="etc" />
+			<classpath id="manifest.classpath" path="${build}">
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
 			</classpath>
 		</manifestclasspath>
+
+		<pathconvert property="classpathProp" refid="manifest.classpath" />
+		<echo>Classpath is ${classpathProp}</echo>
+
 		<manifest file="${build}/MANIFEST.MF">
 			<attribute name="Main-Class" value="ee/ut/math/tvt/TRAtarkvaratehnika/Intro" />
 			<attribute name="Class-Path" value="${lib.list}" />
@@ -149,7 +168,9 @@
 	</target>
 
 	<target name="jrun" depends="build">
-		<java jar="${build}/jar/TRAtarkvaratehnika.jar" fork="true" />
+		<java jar="${build}/jar/TRAtarkvaratehnika.jar" fork="true">
+			<!--<jvmarg value="-Dlog4j.debug" />-->
+		</java>
 	</target>
 
 	<target name="git_commit">

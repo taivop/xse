@@ -35,8 +35,7 @@ public class HistoryItem implements DisplayableItem {
 	public HistoryItem(){
 		
 	}
-	public HistoryItem(Long id, String date, String time, Double sum, List<SoldItem> goods) {
-		this.id = id;
+	public HistoryItem(String date, String time, Double sum, List<SoldItem> goods) {
 		this.date = date;
 		this.time = time;
 		this.sum = sum;

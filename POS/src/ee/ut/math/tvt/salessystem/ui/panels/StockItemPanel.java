@@ -18,14 +18,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 public class StockItemPanel extends JPanel {
 	private static final Logger log = Logger.getLogger(StockItemPanel.class);
-
+	private Session session = HibernateUtil.currentSession();
 	private static final long serialVersionUID = 1L;
+	private final SalesDomainController domainController;
 
 	// Text field on the dialogPane
 	private JTextField nameField;
@@ -41,6 +45,7 @@ public class StockItemPanel extends JPanel {
 
 	public StockItemPanel(SalesSystemModel model) {
 		this.model = model;
+		this.domainController =model.getSalesDomainController();
 
 		setLayout(new GridBagLayout());
 
@@ -99,6 +104,7 @@ public class StockItemPanel extends JPanel {
 		this.nameField.setEnabled(enabled);
 		this.descriptionField.setEnabled(enabled);
 	}
+
 	public void clear() {
 		this.idField.setText("");
 		this.itemPriceField.setText("");
@@ -106,7 +112,7 @@ public class StockItemPanel extends JPanel {
 		this.nameField.setText("");
 		this.descriptionField.setText("");
 	}
-	
+
 	public void addItemToStockEventHandler() {
 		String incorrectDataStockMessage;
 		try {
@@ -150,21 +156,37 @@ public class StockItemPanel extends JPanel {
 					// Price: two decimal places
 					price = Math.round(Double.parseDouble(priceString) * 100.0) / 100.0;
 					quantity = Integer.parseInt(quantityField.getText());
-					StockItem stockItem = new StockItem(id, name, description,
-							price, quantity);
-					model.getWarehouseTableModel().addItem(stockItem);
-					//message
-					String addedToStockMessage = String
-							.format("Added item with id %s", id);
+
+					// inserting to DB
+					// TODO: why we ask id, it is generated?????
+
+					try {
+						session.beginTransaction();
+						StockItem stockItem = new StockItem(name,
+								description, price, quantity);
+						session.save(stockItem);
+						session.flush();
+						session.getTransaction().commit();
+						session.clear();
+
+					} catch (Exception e1) {
+						log.error("Insert failed");
+					}
+					
+					// message
+					String addedToStockMessage = String.format(
+							"Added item with id %s", id);
 					JOptionPane.showMessageDialog(this.getParent(),
 							addedToStockMessage, "Information",
 							JOptionPane.INFORMATION_MESSAGE);
 					log.info(addedToStockMessage);
-					//clearing fields
+					//update Stockitem table
+					model.getWarehouseTableModel().populateWithData(domainController.loadWarehouseState());
+					
+					// clearing fields
 					clear();
 					setEnabled(false);
-					
-					
+
 				}
 			} else {
 				// Open pop-up window with warning

@@ -41,11 +41,25 @@ public class SalesSystemModel {
 		// populate stock model with data from the warehouse
 		warehouseTableModel.populateWithData(domainController
 				.loadWarehouseState());
+		//Populate history tab with data
+		historyModel.populateWithData(domainController
+				.loadHistoryTab());
 
 	}
 
+	public void updateHistoryTab() {
+    	historyModel.populateWithData(domainController.loadHistoryTab());
+    }
+    public void updateWareHouse(){
+    	warehouseTableModel.populateWithData(domainController.loadWarehouseState());
+    }
+	
 	public StockTableModel getWarehouseTableModel() {
 		return warehouseTableModel;
+	}
+	
+	public SalesDomainController getSalesDomainController() {
+		return domainController;
 	}
 
 	public PurchaseInfoTableModel getCurrentPurchaseTableModel() {
