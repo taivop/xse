@@ -45,7 +45,7 @@ public class StockItemPanel extends JPanel {
 
 	public StockItemPanel(SalesSystemModel model) {
 		this.model = model;
-		this.domainController =model.getSalesDomainController();
+		this.domainController = model.getSalesDomainController();
 
 		setLayout(new GridBagLayout());
 
@@ -57,11 +57,11 @@ public class StockItemPanel extends JPanel {
 	private JComponent drawAddToStockPane() {
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(6, 2));
+		panel.setLayout(new GridLayout(5, 2));
 		panel.setBorder(BorderFactory.createTitledBorder("New product"));
 
 		// Initialize the textfields
-		idField = new JTextField();
+		// idField = new JTextField();
 		quantityField = new JTextField();
 		nameField = new JTextField();
 		itemPriceField = new JTextField();
@@ -69,8 +69,8 @@ public class StockItemPanel extends JPanel {
 
 		// == Add components to the panel
 		// - item id
-		panel.add(new JLabel("Id:"));
-		panel.add(idField);
+		// panel.add(new JLabel("Id:"));
+		// panel.add(idField);
 		// - item Name
 		panel.add(new JLabel("Name:*"));
 		panel.add(nameField);
@@ -98,7 +98,7 @@ public class StockItemPanel extends JPanel {
 
 	public void setEnabled(boolean enabled) {
 		this.addItemToStockButton.setEnabled(enabled);
-		this.idField.setEnabled(enabled);
+		// this.idField.setEnabled(enabled);
 		this.quantityField.setEnabled(enabled);
 		this.itemPriceField.setEnabled(enabled);
 		this.nameField.setEnabled(enabled);
@@ -106,7 +106,7 @@ public class StockItemPanel extends JPanel {
 	}
 
 	public void clear() {
-		this.idField.setText("");
+		// this.idField.setText("");
 		this.itemPriceField.setText("");
 		this.quantityField.setText("");
 		this.nameField.setText("");
@@ -128,66 +128,59 @@ public class StockItemPanel extends JPanel {
 					&& Double.parseDouble(priceString) >= 0
 					&& Integer.parseInt(quantityField.getText()) >= 0) {
 				// All current id-s to a list
-				List<StockItem> allProducts = model.getWarehouseTableModel()
-						.getTableRows();
-				for (StockItem item : allProducts) {
-					allIds.add(item.getId());
-				}
+				/*
+				 * List<StockItem> allProducts = model.getWarehouseTableModel()
+				 * .getTableRows(); for (StockItem item : allProducts) {
+				 * allIds.add(item.getId()); }
+				 * 
+				 * // id is inserted and already exists-->Warning if
+				 * (!idField.getText().equals("") &&
+				 * allIds.contains(Long.parseLong(idField.getText()))) { String
+				 * existsInStockMessage = String
+				 * .format("Item with id %s already exists", idField.getText());
+				 * JOptionPane.showMessageDialog(this.getParent(),
+				 * existsInStockMessage, "Warning",
+				 * JOptionPane.WARNING_MESSAGE);
+				 * log.error(existsInStockMessage); } else { // Id is not
+				 * inserted if (idField.getText().equals("")) id =
+				 * Collections.max(allIds) + 1; // Id is inserted else id =
+				 * Long.parseLong(idField.getText());
+				 */
+				name = nameField.getText();
+				description = descriptionField.getText();
+				// Price: two decimal places
+				price = Math.round(Double.parseDouble(priceString) * 100.0) / 100.0;
+				quantity = Integer.parseInt(quantityField.getText());
 
-				// id is inserted and already exists-->Warning
-				if (!idField.getText().equals("")
-						&& allIds.contains(Long.parseLong(idField.getText()))) {
-					String existsInStockMessage = String
-							.format("Item with id %s already exists",
-									idField.getText());
-					JOptionPane.showMessageDialog(this.getParent(),
-							existsInStockMessage, "Warning",
-							JOptionPane.WARNING_MESSAGE);
-					log.error(existsInStockMessage);
-				} else {
-					// Id is not inserted
-					if (idField.getText().equals(""))
-						id = Collections.max(allIds) + 1;
-					// Id is inserted
-					else
-						id = Long.parseLong(idField.getText());
-					name = nameField.getText();
-					description = descriptionField.getText();
-					// Price: two decimal places
-					price = Math.round(Double.parseDouble(priceString) * 100.0) / 100.0;
-					quantity = Integer.parseInt(quantityField.getText());
+				try {
+					session.beginTransaction();
+					StockItem stockItem = new StockItem(name, description,
+							price, quantity);
+					session.save(stockItem);
 
-					// inserting to DB
-					// TODO: why we ask id, it is generated?????
-
-					try {
-						session.beginTransaction();
-						StockItem stockItem = new StockItem(name,
-								description, price, quantity);
-						session.save(stockItem);
-						session.flush();
-						session.getTransaction().commit();
-						session.clear();
-
-					} catch (Exception e1) {
-						log.error("Insert failed");
-					}
-					
-					// message
+					session.getTransaction().commit();
+					session.clear();
 					String addedToStockMessage = String.format(
-							"Added item with id %s", id);
+							"Added item with id %s", stockItem.getId());
 					JOptionPane.showMessageDialog(this.getParent(),
 							addedToStockMessage, "Information",
 							JOptionPane.INFORMATION_MESSAGE);
 					log.info(addedToStockMessage);
-					//update Stockitem table
-					model.getWarehouseTableModel().populateWithData(domainController.loadWarehouseState());
-					
-					// clearing fields
-					clear();
-					setEnabled(false);
+					// update Stockitem table
+					model.getWarehouseTableModel().populateWithData(
+							domainController.loadWarehouseState());
+					model.getWarehouseTableModel().fireTableDataChanged();
 
+				} catch (Exception e1) {
+					// TODO: rollback
+					log.error("Insert failed");
 				}
+
+				// message
+				// clearing fields
+				clear();
+				setEnabled(false);
+
 			} else {
 				// Open pop-up window with warning
 				incorrectDataStockMessage = String
