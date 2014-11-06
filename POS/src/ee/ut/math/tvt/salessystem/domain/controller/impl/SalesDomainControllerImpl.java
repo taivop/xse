@@ -98,7 +98,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 			}
 
-			session.flush();
 			session.getTransaction().commit();
 			session.clear();
 
@@ -107,7 +106,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 					loadHistoryTab());
 			model.getWarehouseTableModel().populateWithData(
 					loadWarehouseState());
-			// model.updateHistoryTab();
+			model.getCurrentHistoryTableModel().fireTableDataChanged();
+			model.getWarehouseTableModel().fireTableDataChanged();
+			
 
 		} catch (Exception e1) {
 			log.error(e1.getStackTrace());
