@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -25,6 +24,7 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 /**
  * Implementation of the sales domain controller.
  */
+@SuppressWarnings("unchecked")
 public class SalesDomainControllerImpl implements SalesDomainController {
 	private static final Logger log = Logger
 			.getLogger(SalesDomainControllerImpl.class);
@@ -78,9 +78,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			session.save(hi);
 
 			// get id from DB
-			List<Integer> dataset = session.createSQLQuery(
-					"select max(id) from historyitem").list();
-			Long saleId = (long) dataset.get(0);
+			Long saleId = hi.getId();
 
 			// Inserting SOLDITEMS to DB and updating stock
 			for (SoldItem si : goods) {
@@ -94,24 +92,23 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 								+ "WHERE id = :stockitem_id");
 				query.setParameter("quantity", newStock);
 				query.setParameter("stockitem_id", si.getStockItemId());
-				int result = query.executeUpdate();
+				query.executeUpdate();
 
 			}
 
 			session.getTransaction().commit();
-			session.clear();
+			// session.clear();
 
 			// updating right away
-			model.getCurrentHistoryTableModel().populateWithData(
-					loadHistoryTab());
-			model.getWarehouseTableModel().populateWithData(
-					loadWarehouseState());
+			model.updateHistoryTab();
+			model.updateWareHouse();
 			model.getCurrentHistoryTableModel().fireTableDataChanged();
 			model.getWarehouseTableModel().fireTableDataChanged();
-			
 
 		} catch (Exception e1) {
-			log.error(e1.getStackTrace());
+			// Rollback transaction if sth failed
+			session.getTransaction().rollback();
+			log.error("Submitting failed. Transaction rollbacked");
 		}
 	}
 
@@ -124,6 +121,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public List<HistoryItem> loadHistoryTab() {
+
 		List<HistoryItem> result = session.createQuery("from HistoryItem")
 				.list();
 		return result;
@@ -150,20 +148,20 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public List<ViewItem> loadHistoryView(int rowNum) {
-		//data frm DB
+		// data frm DB
 		HistoryItem hi = model.getCurrentHistoryTableModel().getTableRows()
 				.get(rowNum);
 		Long saleId = hi.getId();
-		Query query = session
-				.createQuery("from SoldItem where sale_id=:id");
+		Query query = session.createQuery("from SoldItem where sale_id=:id");
 		query.setParameter("id", saleId);
 
 		List<SoldItem> goods = query.list();
 		ArrayList<ViewItem> viewItems = new ArrayList<ViewItem>();
 
 		for (SoldItem g : goods) {
-			ViewItem vi = new ViewItem(g.getStockItemId(), g.getName(), new BigDecimal(
-					g.getPrice()), g.getQuantity(), new BigDecimal(g.getSum()));
+			ViewItem vi = new ViewItem(g.getStockItemId(), g.getName(),
+					new BigDecimal(g.getPrice()), g.getQuantity(),
+					new BigDecimal(g.getSum()));
 			viewItems.add(vi);
 		}
 

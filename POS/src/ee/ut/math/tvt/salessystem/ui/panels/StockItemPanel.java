@@ -5,9 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,7 +32,7 @@ public class StockItemPanel extends JPanel {
 	private JTextField nameField;
 	private JTextField itemPriceField;
 	private JTextField quantityField;
-	private JTextField idField;
+	// private JTextField idField;
 	private JTextField descriptionField;
 
 	private JButton addItemToStockButton;
@@ -116,8 +113,8 @@ public class StockItemPanel extends JPanel {
 	public void addItemToStockEventHandler() {
 		String incorrectDataStockMessage;
 		try {
-			long id;
-			List<Long> allIds = new ArrayList<Long>();
+			// long id;
+			// List<Long> allIds = new ArrayList<Long>();
 			String name;
 			String description;
 			double price;
@@ -167,13 +164,12 @@ public class StockItemPanel extends JPanel {
 							JOptionPane.INFORMATION_MESSAGE);
 					log.info(addedToStockMessage);
 					// update Stockitem table
-					model.getWarehouseTableModel().populateWithData(
-							domainController.loadWarehouseState());
+					model.updateWareHouse();
 					model.getWarehouseTableModel().fireTableDataChanged();
 
 				} catch (Exception e1) {
-					// TODO: rollback
-					log.error("Insert failed");
+					session.getTransaction().rollback();
+					log.error("Submitting failed. Transaction rollbacked");
 				}
 
 				// message
@@ -194,7 +190,7 @@ public class StockItemPanel extends JPanel {
 
 		} catch (NumberFormatException ex) {
 			incorrectDataStockMessage = String
-					.format("You inserted incorrect data. Id must be integer and fields with * are required");
+					.format("You inserted incorrect data. Fields with * are required");
 			// Open pop-up window with warning
 			JOptionPane.showMessageDialog(this.getParent(),
 					incorrectDataStockMessage, "Warning",
