@@ -3,9 +3,11 @@ package ee.ut.math.tvt.TRAtarkvaratehnika;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,12 +21,14 @@ class IntroUI extends JFrame {
 		setSize(500, 400);
 		// from application.properties
 		Properties appProp = new Properties();
-		FileInputStream appIn = new FileInputStream("application.properties");
+		InputStream appIn = IntroUI.class.getResourceAsStream("/application.properties");
+		//FileInputStream appIn = new FileInputStream("application.properties");
 		appProp.load(appIn);
 		appIn.close();
 		// from version.properties
 		Properties verProp = new Properties();
-		FileInputStream verIn = new FileInputStream("version.properties");
+		InputStream verIn = IntroUI.class.getResourceAsStream("/version.properties");
+		//FileInputStream verIn = new FileInputStream("version.properties");
 		verProp.load(verIn);
 		verIn.close();
 		// setting layout
@@ -59,7 +63,8 @@ class IntroUI extends JFrame {
 		}
 		// adding team logo
 		GridBagConstraints constr = new GridBagConstraints();
-		ImageIcon icon = new ImageIcon("rabbit.jpg");
+		URL imageURL = IntroUI.class.getResource("/rabbit.jpg");
+		ImageIcon icon = new ImageIcon(imageURL);
 		label1 = new JLabel(icon);
 		constr.fill = GridBagConstraints.HORIZONTAL;
 		constr.gridy = 5;

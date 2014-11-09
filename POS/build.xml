@@ -135,7 +135,11 @@
 			<classpath id="manifest.classpath" path="${build}">
 				<fileset dir="lib">
 					<include name="**/*.jar" />
+					<include name="*.jar" />
 				</fileset>
+				<!--<fileset dir=".">
+					<include name="*.properties" />
+				</fileset>-->
 			</classpath>
 		</manifestclasspath>
 
