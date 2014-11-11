@@ -97,12 +97,12 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			}
 
 			session.getTransaction().commit();
-			// session.clear();
+			session.clear();
 
 			// updating right away
 			model.updateHistoryTab();
-			model.updateWareHouse();
 			model.getCurrentHistoryTableModel().fireTableDataChanged();
+			model.updateWareHouse();
 			model.getWarehouseTableModel().fireTableDataChanged();
 
 		} catch (Exception e1) {
