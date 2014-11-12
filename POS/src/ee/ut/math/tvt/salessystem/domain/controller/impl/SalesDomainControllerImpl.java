@@ -76,6 +76,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			HistoryItem hi = new HistoryItem(dateFormat.format(date),
 					timeFormat.format(date), sum, goods);
 			session.save(hi);
+			session.getTransaction().commit();
 
 			// get id from DB
 			Long saleId = hi.getId();
@@ -83,21 +84,27 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			// Inserting SOLDITEMS to DB and updating stock
 			for (SoldItem si : goods) {
 				si.setSale_id(saleId);
+				session.beginTransaction();
 				session.save(si);
-				int oldStock = model.getWarehouseTableModel()
-						.getItemById(si.getStockItemId()).getQuantity();
+				// getting old quantity from DB
+				Query query1 = session
+						.createQuery("from StockItem where id=:id");
+				query1.setParameter("id", si.getStockItemId());
+				List<StockItem> item = query1.list();
+				// int oldStock = model.getWarehouseTableModel()
+				// .getItemById(si.getStockItemId()).getQuantity();
+				int oldStock = item.get(0).getQuantity();
 				int newStock = oldStock - si.getQuantity();
+				// updating quantity
 				Query query = session
 						.createQuery("update StockItem set quantity = :quantity "
 								+ "WHERE id = :stockitem_id");
 				query.setParameter("quantity", newStock);
 				query.setParameter("stockitem_id", si.getStockItemId());
 				query.executeUpdate();
-
+				session.getTransaction().commit();
+				session.clear();
 			}
-
-			session.getTransaction().commit();
-			session.clear();
 
 			// updating right away
 			model.updateHistoryTab();
