@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -73,13 +74,13 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
 		rows.addAll(data);
 	}
 
-	public double sumRow(int columnIndex) {
+	public BigDecimal sumRow(int columnIndex) {
 
-		double sum = 0;
+		BigDecimal sum = new BigDecimal(0);
 		for (int i = 0; i < this.getRowCount(); i++) {
-			Double cost = (Double) this.getValueAt(i, columnIndex);
-			sum = sum + cost;
-		}
+			Double cost = ((BigDecimal) this.getValueAt(i, columnIndex)).doubleValue();
+			sum =sum.add(new BigDecimal(cost));
+			}
 		return sum;
 
 	}

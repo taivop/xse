@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.math.RoundingMode;
 import java.util.NoSuchElementException;
 
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
@@ -21,8 +22,8 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 		case 2:
 			return item.getTime();
 		case 3:
-			return item.getSum();
-		}
+			return item.getSum().setScale(2, RoundingMode.HALF_UP);
+			}
 		return null;
 	}
 	

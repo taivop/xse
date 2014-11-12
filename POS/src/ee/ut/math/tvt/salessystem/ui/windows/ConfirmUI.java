@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -118,7 +120,7 @@ public class ConfirmUI extends JFrame {
 				.getModel().getCurrentPurchaseTableModel();
 
 		// Sum the shopping cart
-		final double calculatedSum = currentPurchaseTable.sumRow(4);
+		final BigDecimal calculatedSum = currentPurchaseTable.sumRow(4).setScale(2, RoundingMode.HALF_UP);
 
 		JLabel sum = new JLabel(String.valueOf(calculatedSum));
 		paymentInformation.add(new JLabel("Sum"));
@@ -147,7 +149,7 @@ public class ConfirmUI extends JFrame {
 					double paid = Math.round(Double.valueOf(amount.getText()
 							.replace(',', '.')) * 100.0) / 100.0;
 
-					changeValue = Math.round((paid - calculatedSum) * 100.0) / 100.0;
+					changeValue = Math.round((paid -calculatedSum.doubleValue()) * 100.0) / 100.0;
 
 					if (changeValue >= 0) { // show change amount only if
 											// entered amount was large enough

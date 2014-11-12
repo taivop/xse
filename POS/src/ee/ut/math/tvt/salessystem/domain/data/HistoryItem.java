@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ public class HistoryItem implements DisplayableItem {
 	private String time;
 	
 	@Column(name = "TOTAL")
-	private Double sum;
+	private BigDecimal sum;
 	
 	@Transient	// TODO is this correct?
 	private List<SoldItem> goods;
@@ -35,7 +36,7 @@ public class HistoryItem implements DisplayableItem {
 	public HistoryItem(){
 		
 	}
-	public HistoryItem(String date, String time, Double sum, List<SoldItem> goods) {
+	public HistoryItem(String date, String time, BigDecimal sum, List<SoldItem> goods) {
 		this.date = date;
 		this.time = time;
 		this.sum = sum;
@@ -73,11 +74,11 @@ public class HistoryItem implements DisplayableItem {
 		this.time = time;
 	}
 
-	public Double getSum() {
+	public BigDecimal getSum() {
 		return sum;
 	}
 
-	public void setSum(Double sum) {
+	public void setSum(BigDecimal sum) {
 		this.sum = sum;
 	}
 }

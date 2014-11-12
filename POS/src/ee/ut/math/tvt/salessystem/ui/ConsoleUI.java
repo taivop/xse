@@ -89,6 +89,7 @@ public class ConsoleUI {
 				.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
 		System.out.println("p\t\tPurchase the shopping cart");
 		System.out.println("r\t\tReset the shopping cart");
+		System.out.println("q\t\tEnd database session and exit.");
 		System.out.println("-------------------------");
 	}
 

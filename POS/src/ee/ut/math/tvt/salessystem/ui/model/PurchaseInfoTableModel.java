@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.math.RoundingMode;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
@@ -29,7 +31,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		case 3:
 			return item.getQuantity();
 		case 4:
-			return item.getSum();
+			return item.getSum().setScale(2, RoundingMode.HALF_UP);
 		}
 		throw new IllegalArgumentException("Column index out of range");
 	}

@@ -54,9 +54,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		try {
 
 			session.beginTransaction();
-			double sum = 0;
+			BigDecimal sum = new BigDecimal(0);
 			for (SoldItem si : goods) {
-				sum += si.getSum();
+				sum=sum.add(si.getSum());
 			}
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -168,7 +168,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		for (SoldItem g : goods) {
 			ViewItem vi = new ViewItem(g.getStockItemId(), g.getName(),
 					new BigDecimal(g.getPrice()), g.getQuantity(),
-					new BigDecimal(g.getSum()));
+					g.getSum());
 			viewItems.add(vi);
 		}
 

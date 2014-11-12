@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -112,8 +114,10 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	public SoldItem() {
 	}
 
-	public double getSum() {
-		return Math.round(price * ((double) quantity)* 100.0) / 100.0;
+	public BigDecimal getSum() {
+		double sum1= Math.round(price * ((double) quantity)* 100.0) / 100.0;
+		BigDecimal sum= new BigDecimal( sum1);
+		return sum;
 	}
 	/*
 	 * public StockItem getStockItem() { return stockItem; }
