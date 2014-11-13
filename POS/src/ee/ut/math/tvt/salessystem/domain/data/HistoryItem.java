@@ -49,6 +49,11 @@ public class HistoryItem implements DisplayableItem {
 	public void setGoods(List<SoldItem> goods) {
 		this.goods = goods;
 	}
+	
+	public void addSoldItem(SoldItem item) {
+		this.goods.add(item);
+	}
+	
 	public Long getId() {
 		return id;
 	}
