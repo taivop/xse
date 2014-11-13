@@ -8,7 +8,7 @@
 	<!-- Set global properties for this build -->
 	<property name="src" location="src" />
 	<property name="build" location="build" />
-	<property name="build.test.dir" value="${build.dir}/test" />
+	<property name="build.test.dir" value="${build}/test" />
 	<property name="dist" location="dist" />
 	<property name="etc.dir" location="${basedir}/etc" />
 	<property name="conf.dir" location="conf" />
