@@ -52,12 +52,22 @@ public class HistoryItem implements DisplayableItem {
 	
 	public void addSoldItem(SoldItem item) {
 		this.goods.add(item);
+		this.sum.add(item.getSum());
 	}
 	
 	public Long getId() {
 		return id;
 	}
-
+	
+	//Getting sum of goods
+	public BigDecimal getSumOfGoods() {
+		BigDecimal sumOfGoods = new BigDecimal(0);
+		for (SoldItem si : goods) {
+			sumOfGoods=sumOfGoods.add(si.getSum());
+		}
+		return sumOfGoods;
+	}
+	
 
 	public void setId(Long id) {
 		this.id = id;
