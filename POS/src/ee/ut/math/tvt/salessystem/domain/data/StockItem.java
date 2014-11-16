@@ -65,7 +65,38 @@ public class StockItem implements Cloneable, DisplayableItem {
     public StockItem() {
     }
 
-    public String getDescription() {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StockItem other = (StockItem) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (Double.doubleToLongBits(price) != Double
+				.doubleToLongBits(other.price))
+			return false;
+		if (quantity != other.quantity)
+			return false;
+		return true;
+	}
+	public String getDescription() {
         return description;
     }
 

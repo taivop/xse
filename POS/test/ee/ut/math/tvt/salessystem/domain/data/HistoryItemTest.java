@@ -32,34 +32,37 @@ public class HistoryItemTest {
 		historyItem.addSoldItem(soldItem2);
 		// TODO: assertequals. What should be checked?
 		// Currently checking if sum is updated
-		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(3 * 9.1 + 6.0));
+		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(3 * 9.1 + 6.0).setScale(2, BigDecimal.ROUND_HALF_UP));
 	}
 
+	@Test
 	public void testGetSumWithNoItems() {
 		// No items in order
 		List<SoldItem> goods = new ArrayList<SoldItem>();
 		HistoryItem historyItem = new HistoryItem("01/01/2014", "01:01:01",
 				new BigDecimal(3 * 9.1), goods);
 		// Sum must be 0
-		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(0));
+		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_UP));
 
 	}
 
+	@Test	
 	public void testGetSumWithOneItem() {
 		List<SoldItem> goods = new ArrayList<SoldItem>();
 		goods.add(soldItem1);
 		HistoryItem historyItem = new HistoryItem("01/01/2014", "01:01:01",
 				new BigDecimal(3 * 9.1), goods);
-		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(3 * 9.1));
+		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(3 * 9.1).setScale(2, BigDecimal.ROUND_HALF_UP));
 	}
 
+	@Test
 	public void testGetSumWithMultipleItems() {
 		List<SoldItem> goods = new ArrayList<SoldItem>();
 		goods.add(soldItem1);
 		goods.add(soldItem2);
 		HistoryItem historyItem = new HistoryItem("01/01/2014", "01:01:01",
 				new BigDecimal(3 * 9.1 + 6.0), goods);
-		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(3 * 9.1 + 6.0));
+		assertEquals(historyItem.getSumOfGoods(), new BigDecimal(3 * 9.1 + 6.0).setScale(2, BigDecimal.ROUND_HALF_UP));
 	}
 
 }

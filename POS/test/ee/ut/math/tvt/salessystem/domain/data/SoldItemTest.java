@@ -21,7 +21,8 @@ public class SoldItemTest {
 		SoldItem soldItem = new SoldItem(item, 0);
 		assertEquals(soldItem.getSum(), new BigDecimal(0));
 	}
-
+	
+	@Test
 	public void testGetSum() {
 		SoldItem soldItem = new SoldItem(item, 3);
 		assertEquals(soldItem.getSum(), new BigDecimal(3 * 9.99));

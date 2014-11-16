@@ -53,6 +53,7 @@ public class HistoryItem implements DisplayableItem {
 	public void addSoldItem(SoldItem item) {
 		this.goods.add(item);
 		this.sum.add(item.getSum());
+		this.sum.setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 	
 	public Long getId() {
@@ -65,7 +66,7 @@ public class HistoryItem implements DisplayableItem {
 		for (SoldItem si : goods) {
 			sumOfGoods=sumOfGoods.add(si.getSum());
 		}
-		return sumOfGoods;
+		return sumOfGoods.setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
 	
 
