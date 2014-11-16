@@ -59,11 +59,11 @@
 	</path>
 
 	<!-- Test classpath -->
-	<path id="test-classpath">
+	<path id="test.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
-		<pathelement path="${build.classes.dir}/" />
+		<pathelement path="${build}/" />
 		<pathelement path="${build.test.dir}/" />
 	</path>
 
@@ -243,7 +243,7 @@
 	</target>
 
 	<target name="build-tests" depends="build" description="Build the system">
-		<javac srcdir="${test.dir}" destdir="${build.test.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern" target="1.5" source="1.5" classpathref="libs">
+		<javac srcdir="${test.dir}" destdir="${build.test.dir}" debug="true" debuglevel="lines,vars,source" encoding="utf-8" compiler="modern" target="1.5" source="1.5" classpathref="test.classpath">
 			<classpath>
 				<pathelement path="${build.classes.dir}" />
 			</classpath>
@@ -252,7 +252,7 @@
 
 	<target name="test" depends="build-tests" description="Run the template application">
 		<junit>
-			<classpath refid="test-classpath" />
+			<classpath refid="test.classpath" />
 
 			<formatter type="brief" usefile="false" />
 			<batchtest>
