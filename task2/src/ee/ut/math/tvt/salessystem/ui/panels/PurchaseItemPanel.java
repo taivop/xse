@@ -187,8 +187,10 @@ public class PurchaseItemPanel extends JPanel {
 
 			// If there is not enough stock left in the warehouse to add this
 			// quantity..
+		
 			SoldItem si = new SoldItem(stockItem, quantity);
 			model.getCurrentPurchaseTableModel().getSale().addSoldItem(si);
+			model.getCurrentPurchaseTableModel().showSale(model.getCurrentPurchaseTableModel().getSale());
 			/*try {
 
 				SoldItem si = new SoldItem(stockItem, quantity);

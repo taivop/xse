@@ -47,8 +47,6 @@ public class PurchaseTab {
 	private SalesSystemModel model;
 
 	private JFrame parent;
-	// TODO: remove
-	public static Sale sale;
 
 	public PurchaseTab(SalesDomainController controller,
 			SalesSystemModel model, JFrame parent) {
