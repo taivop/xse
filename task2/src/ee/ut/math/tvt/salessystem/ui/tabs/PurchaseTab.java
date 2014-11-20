@@ -178,7 +178,7 @@ public class PurchaseTab {
 			 */
 			// same with sale
 
-			domainController.registerSale(sale);
+			domainController.registerSale(model.getCurrentPurchaseTableModel().getSale());
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();
 		} catch (VerificationFailedException e1) {
@@ -203,8 +203,8 @@ public class PurchaseTab {
 
 		showSelectClientDialog();
 		Client client = model.getSelectedClient();
-		// TODO: Add saleItem to PurchaseInfoTableModel
-		sale = new Sale(client);
+		// Add saleItem to PurchaseInfoTableModel
+		model.getCurrentPurchaseTableModel().setSale(new Sale(client));
 
 		purchasePane.setEnabled(true);
 		submitPurchase.setEnabled(true);
