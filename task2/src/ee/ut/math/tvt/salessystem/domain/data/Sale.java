@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,12 +16,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.Query;
+
+import ee.ut.math.tvt.salessystem.domain.exception.SalesSystemException;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
+
 /**
  * Sale object. Contains client and sold items.
  */
 @Entity
 @Table(name = "SALE")
 public class Sale implements DisplayableItem {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -79,9 +86,53 @@ public class Sale implements DisplayableItem {
 		this.id = id;
 	}
 
-	public void addSoldItem(SoldItem item) {
-		item.setSale(this);
-		soldItems.add(item);
+	public void addSoldItem(SoldItem soldItem) throws SalesSystemException {
+		Long stockItemId = soldItem.getStockItem().getId();
+		StockItem stockItem = soldItem.getStockItem();
+
+		// if exists in cart
+		// validate stock
+		SoldItem existingItem = getForStockItem(stockItemId);
+
+		if (existingItem != null) {
+			// increasing Quantity
+			int totalQuantity = existingItem.getQuantity()
+					+ soldItem.getQuantity();
+			validateQuantityInStock(stockItem, totalQuantity);
+			existingItem.setQuantity(totalQuantity);
+
+		} else {
+			validateQuantityInStock(soldItem.getStockItem(),
+					soldItem.getQuantity());
+
+			soldItem.setSale(this);
+			soldItems.add(soldItem);
+
+		}
+
+	}
+
+	private void validateQuantityInStock(StockItem si, int quantity)
+			throws SalesSystemException {
+
+		// getting old quantity from DB
+		Query query1 = HibernateUtil.currentSession().createQuery(
+				"from StockItem where id=:id");
+		query1.setParameter("id", si.getId());
+		List<StockItem> item = query1.list();
+		int currentStock = item.get(0).getQuantity();
+
+		if (currentStock < quantity)
+			throw new SalesSystemException();
+	}
+
+	public SoldItem getForStockItem(long stockItemId) {
+		for (SoldItem item : soldItems) {
+			if (item.getStockItem().getId().equals(stockItemId)) {
+				return item;
+			}
+		}
+		return null;
 	}
 
 	public double getSum() {

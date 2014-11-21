@@ -79,7 +79,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
 		return buffer.toString();
 	}
-
+/*
 
 	public SoldItem getForStockItem(long stockItemId) {
 	    for (SoldItem item : rows) {
@@ -90,10 +90,10 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	    return null;
 	}
 
-
+*/
     /**
      * Add new StockItem to table.
-     */
+     *//*
     public void addItem(final SoldItem soldItem) throws SalesSystemException {
 
         StockItem stockItem = soldItem.getStockItem();
@@ -116,7 +116,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
         }
 
         fireTableDataChanged();
-    }
+    }*/
 
     /**
      * Returns the total sum that needs to be paid for all the items in the basket.
