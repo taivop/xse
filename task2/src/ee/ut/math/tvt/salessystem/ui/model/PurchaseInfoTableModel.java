@@ -47,7 +47,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 	protected Object getColumnValue(SoldItem item, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return item.getId();
+			return item.getStockItem().getId();
 		case 1:
 			return item.getName();
 		case 2:
@@ -129,7 +129,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
         return price;
     }
 
-
+/*
 
     private void validateQuantityInStock(StockItem item, int quantity)
         throws SalesSystemException {
@@ -141,7 +141,7 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 
     }
 
-
+*/
     public static PurchaseInfoTableModel getEmptyTable() {
         return new PurchaseInfoTableModel();
     }

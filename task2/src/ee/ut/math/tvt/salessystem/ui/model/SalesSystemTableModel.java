@@ -61,7 +61,7 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
     public abstract List<T> getTableRows();
 
     public void clear() {
-    	//this.getTableRows() = new ArrayList<T>();
+    	this.getTableRows().clear();
         fireTableDataChanged();
     }
 

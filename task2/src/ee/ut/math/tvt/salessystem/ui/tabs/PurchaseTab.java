@@ -176,7 +176,8 @@ public class PurchaseTab {
 			 */
 			// same with sale
 
-			domainController.registerSale(model.getCurrentPurchaseTableModel().getSale());
+			domainController.registerSale(model.getCurrentPurchaseTableModel()
+					.getSale());
 			endSale();
 			model.getCurrentPurchaseTableModel().clear();
 		} catch (VerificationFailedException e1) {
