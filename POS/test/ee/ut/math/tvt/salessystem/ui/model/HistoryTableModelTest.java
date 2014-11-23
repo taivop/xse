@@ -17,7 +17,6 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 public class HistoryTableModelTest {
 
 	
-	HistoryTableModel htm;
 	HistoryItem historyItem;
 	StockItem stockItem1;
 	StockItem stockItem2;
@@ -41,7 +40,7 @@ public class HistoryTableModelTest {
 	
 	@Test 
 	public void testAddItem(){
-		htm= new HistoryTableModel();
+		HistoryTableModel htm= new HistoryTableModel();
 		htm.addItem(historyItem);
 		int rowCount=htm.getRowCount();
 		assertEquals(htm.getTableRows().get(rowCount-1), historyItem);
@@ -50,7 +49,7 @@ public class HistoryTableModelTest {
 	
 	@Test 
 	public void testGetColumnValue(){
-		htm= new HistoryTableModel();
+		HistoryTableModel htm= new HistoryTableModel();
 		htm.addItem(historyItem);
 		assertEquals(htm.getColumnValue(historyItem, 0), (long)1); //ID
 		assertEquals(htm.getColumnValue(historyItem, 1), "23/11/2014"); //Date
@@ -60,7 +59,7 @@ public class HistoryTableModelTest {
 	
 	@Test 
 	public void testClear(){
-		htm= new HistoryTableModel();
+		HistoryTableModel htm= new HistoryTableModel();
 		htm.addItem(historyItem);
 		assertEquals(htm.getRowCount(), 1);
 		htm.clear();

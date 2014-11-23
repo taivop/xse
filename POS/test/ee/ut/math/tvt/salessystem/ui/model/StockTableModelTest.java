@@ -15,7 +15,7 @@ public class StockTableModelTest {
 	
 	StockItem stockItem1;
 	StockItem stockItem2;
-	StockTableModel stm;
+	
 	
 	@Before
 	public void setUp(){
@@ -26,28 +26,28 @@ public class StockTableModelTest {
 
 	@Test
 	public void testValidateNameUniqueness() {
-		stm =  new StockTableModel();
+		StockTableModel stm =  new StockTableModel();
 		stm.addItem(stockItem1);
 		assertFalse(stm.validateNameUniqueness("item1"));
 	}
 
 	@Test
 	public void testHasEnoughInStock() {
-		stm =  new StockTableModel();
+		StockTableModel stm =  new StockTableModel();
 		stm.addItem(stockItem2);
 		assertFalse(stm.hasEnoughInStock(stockItem2, 4));
 	}
 
 	@Test
 	public void testGetItemByIdWhenItemExists() {
-		stm =  new StockTableModel();
+		StockTableModel stm =  new StockTableModel();
 		stm.addItem(stockItem1);
 		assertEquals(stm.getItemById((long)55), stockItem1);
 	}
 
 	@Test (expected=NoSuchElementException.class)
 	public void testGetItemByIdWhenThrowsException() {
-		stm =  new StockTableModel();
+		StockTableModel stm =  new StockTableModel();
 		stm.addItem(stockItem1);
 		assertEquals(stm.getItemById((long)56), stockItem1);
 	}
