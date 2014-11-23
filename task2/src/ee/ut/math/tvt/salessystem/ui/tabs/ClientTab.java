@@ -31,8 +31,6 @@ public class ClientTab {
      * The main entry-point method. Creates the tab.
      */
     public Component draw() {
-    	// refresh data
-    	this.refresh();
     	
         JPanel panel = new JPanel();
         panel.addFocusListener(new FocusListener(){
