@@ -122,7 +122,7 @@ public class HistoryTab {
         return gc;
     }
     
-    private void refresh() {
+    public void refresh() {
     	PurchaseHistoryTableModel ptm = model.getPurchaseHistoryTableModel();
     	ptm.populateWithData(domainController.getAllSales());
     	ptm.fireTableDataChanged();
