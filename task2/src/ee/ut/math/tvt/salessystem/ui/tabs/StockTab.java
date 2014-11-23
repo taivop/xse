@@ -1,14 +1,12 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,12 +16,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
+
 import org.apache.log4j.Logger;
+
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
 public class StockTab {
 
     private static final Logger log = Logger.getLogger(StockTab.class);
-    private final SalesDomainController controller;
+    private final SalesDomainController domainController;
 
     private SalesSystemModel model;
 
@@ -31,7 +35,7 @@ public class StockTab {
 
     public StockTab(SalesSystemModel model, SalesDomainController controller) {
         this.model = model;
-        this.controller = controller;
+        this.domainController = controller;
     }
 
     // warehouse stock tab - consists of a menu and a table
@@ -176,7 +180,7 @@ public class StockTab {
 
         if (nameValid && priceValid && quantityValid) {
             StockItem newItem = new StockItem(itemName, "", price, quantity);
-            controller.createStockItem(newItem);
+            domainController.createStockItem(newItem);
 
         // Show the error messages
         } else {
@@ -187,6 +191,12 @@ public class StockTab {
                     JOptionPane.ERROR_MESSAGE
             );
         }
+    }
+    
+    private void refresh() {
+    	StockTableModel stm = model.getWarehouseTableModel();
+    	stm.populateWithData(domainController.getAllStockItems());
+    	stm.fireTableDataChanged();
     }
 
 }
