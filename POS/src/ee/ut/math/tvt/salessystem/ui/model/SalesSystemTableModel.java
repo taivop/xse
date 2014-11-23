@@ -74,7 +74,7 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
 		rows.addAll(data);
 	}
 
-	public BigDecimal sumRow(int columnIndex) {
+	public BigDecimal sumColumn(int columnIndex) {
 
 		BigDecimal sum = new BigDecimal(0);
 		for (int i = 0; i < this.getRowCount(); i++) {

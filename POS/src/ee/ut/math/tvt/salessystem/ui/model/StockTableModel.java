@@ -73,4 +73,24 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		return buffer.toString();
 	}
 
+	public boolean hasEnoughInStock(StockItem item, int quantityWanted){
+		
+		int quantityInStock= (int) this.getColumnValue(item, 3);
+	
+		if (quantityWanted>quantityInStock){
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean validateNameUniqueness(String newName){
+		
+		for (StockItem item: this.getTableRows()){
+			if(item.getName().equals(newName)){
+				return false;
+			}
+		
+		}
+		return true;
+	}
 }

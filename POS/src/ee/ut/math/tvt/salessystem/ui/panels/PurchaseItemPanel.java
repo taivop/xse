@@ -228,6 +228,28 @@ public class PurchaseItemPanel extends JPanel {
 		}
 	}
 
+	
+	public boolean hasEnoughInStock(StockItem itemInStock, int currentAddedQuantityOfItem, int quantity){
+		boolean hasEnoughInStock=true;
+		
+		List<SoldItem> currentItems = model
+				.getCurrentPurchaseTableModel().getTableRows();
+		for (SoldItem item : currentItems) {
+			if (item.getStockItemId() == itemInStock.getId())
+				currentAddedQuantityOfItem += item.getQuantity();
+		}
+
+		// Calculate the quantity of items available
+		int availableQuantity = itemInStock.getQuantity()
+				- currentAddedQuantityOfItem;
+		
+		if (availableQuantity<=0 || quantity >availableQuantity){
+			hasEnoughInStock=false;
+		}
+		return hasEnoughInStock;
+			
+		
+	}
 	/**
 	 * Add new item to the cart.
 	 */
@@ -235,7 +257,7 @@ public class PurchaseItemPanel extends JPanel {
 		// add chosen item to the shopping cart.
 		StockItem stockItem = getStockItemByBarcode();
 		if (stockItem != null) {
-			int quantity;
+			int quantity; //needed quantity
 			try {
 				quantity = Integer.parseInt(quantityField.getText());
 				// } catch (NumberFormatException ex) {
@@ -245,6 +267,7 @@ public class PurchaseItemPanel extends JPanel {
 					// Calculate, how many of this item we currently have in our
 					// order
 					int currentAddedQuantityOfItem = 0;
+					/*
 					List<SoldItem> currentItems = model
 							.getCurrentPurchaseTableModel().getTableRows();
 					for (SoldItem item : currentItems) {
@@ -257,7 +280,7 @@ public class PurchaseItemPanel extends JPanel {
 							- currentAddedQuantityOfItem;
 					if (quantity > availableQuantity) {
 						// We do not have enough of this item in stock
-
+*/					if(!hasEnoughInStock(stockItem, currentAddedQuantityOfItem, quantity)){
 						String notEnoughInStockMessage = String
 								.format("The stock of %s is too low: currently %d in stock and %d in your order.",
 										stockItem.getName(),

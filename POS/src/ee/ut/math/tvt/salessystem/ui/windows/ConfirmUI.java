@@ -120,7 +120,7 @@ public class ConfirmUI extends JFrame {
 				.getModel().getCurrentPurchaseTableModel();
 
 		// Sum the shopping cart
-		final BigDecimal calculatedSum = currentPurchaseTable.sumRow(4).setScale(2, RoundingMode.HALF_UP);
+		final BigDecimal calculatedSum = currentPurchaseTable.sumColumn(4).setScale(2, RoundingMode.HALF_UP);
 
 		JLabel sum = new JLabel(String.valueOf(calculatedSum));
 		paymentInformation.add(new JLabel("Sum"));
