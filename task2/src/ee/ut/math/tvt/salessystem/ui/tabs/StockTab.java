@@ -193,7 +193,7 @@ public class StockTab {
         }
     }
     
-    private void refresh() {
+    public void refresh() {
     	StockTableModel stm = model.getWarehouseTableModel();
     	stm.populateWithData(domainController.getAllStockItems());
     	stm.fireTableDataChanged();

@@ -3,6 +3,8 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -29,10 +31,16 @@ public class ClientTab {
      * The main entry-point method. Creates the tab.
      */
     public Component draw() {
-    	// refresh data
-    	this.refresh();
     	
         JPanel panel = new JPanel();
+        panel.addFocusListener(new FocusListener(){
+        	public void focusGained(FocusEvent e) {
+        		System.out.println("focus gained on ClientTab!");
+        	}
+        	public void focusLost(FocusEvent e) {
+        		System.out.println("focus lost on ClientTab!");
+        	}
+        });
         
         GridBagConstraints gc = getGbConstraints();
         GridBagLayout gb = new GridBagLayout();
@@ -74,7 +82,7 @@ public class ClientTab {
         return gc;
     }    
     
-    private void refresh() {
+    public void refresh() {
     	ClientTableModel ctm = model.getClientTableModel();
     	ctm.populateWithData(domainController.getAllClients());
     	ctm.fireTableDataChanged();
